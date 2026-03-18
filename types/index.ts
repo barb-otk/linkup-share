@@ -6,8 +6,7 @@ export interface ApiResponse<T> {
 }
 
 // ─── Profile ──────────────────────────────────────────────────────────────────
-// Matches GET {{IDBaseUrl}}/api/v1.0/User/profile/{username}
-// Actual response shape: { records: UserProfile }
+// GET {{IDBaseUrl}}/api/v1.0/User/profile/{username}
 
 export interface UserProfile {
   id: string;
@@ -17,15 +16,15 @@ export interface UserProfile {
   firstName: string;
   lastName: string;
   name: string;
-  userName: string;              // this is the ID used in the URL
+  userName: string;
   bio: string;
   occupation: string;
-  dateOfBirth: string;           // ISO 8601 — use calcAge() to derive age
+  dateOfBirth: string;
   verified: boolean;
   verificationInReview: boolean;
   profileCompletion: number;
   pushDisabled: boolean;
-  friendStatus: string;          // "none" | "friend" | "pending" | etc.
+  friendStatus: string;
   blocked: boolean;
   linkupsAttended: number;
   linkupsCreated: number;
@@ -55,7 +54,7 @@ export interface UserProfile {
     platform: {
       id: number;
       name: string;
-      urlFormat: string;         // e.g. "https://instagram.com/{0}" — replace {0} with username
+      urlFormat: string;
     };
   }[];
   userInterests: {
@@ -70,10 +69,7 @@ export interface UserProfile {
 }
 
 // ─── Linkup Event ─────────────────────────────────────────────────────────────
-// Matches GET {{LinkupBaseUrl}}/api/v2.0/Linkups/GetBySlug/{slug}
-// Actual response shape: { records: LinkupEvent }
-// ⚠️ Backend hasn't shared a sample response yet — fields below are best-guess
-//    Update once backend confirms the actual shape
+// GET {{LinkupBaseUrl}}/api/v2.0/Linkups/GetBySlug/{slug}
 
 export interface Attendee {
   id: string;
@@ -81,32 +77,89 @@ export interface Attendee {
   profilePictureUrl?: string;
 }
 
-export interface LinkupEvent {
+export interface GooglePlace {
   id: string;
-  slug: string;                  // used in the URL: /linkup/{slug}
-  title: string;
-  description: string;
-  coverImageUrl?: string;
-  type: string;                  // e.g. "Public" | "Private"
-  startDate: string;             // ISO 8601
-  endDate: string;               // ISO 8601
-  timezone: string;
+  name: string;
+  formattedAddress: string;
+  rating?: number;
+  userRatingCount?: number;
+  displayName: {
+    text: string;
+    languageCode: string;
+  };
   location: {
-    name: string;
-    address: string;
     latitude: number;
     longitude: number;
   };
-  host: Attendee;
+  imageUrl?: string;
+}
+
+export interface LinkupEvent {
+  id: string;
+  title: string;
+  description: string;
+
+  picture: string;
+  pictureThumbnailUrl: string;
+
+  ownerId: string;
+  ownerName: string;
+  ownerVerified: boolean;
+
+  startTime: string;
+  endTime: string;
+  formattedStartTime: string;
+  formattedEndTime: string;
+  timeZoneId: string;
+  timeZoneName: string;
+  gmtOffset: string;
+
+  googlePlace: GooglePlace;
+  sortAddress: string;
+  aproxLatitude: number;
+  aproxLongitude: number;
+  city: string;
+  area: string;
+  country: string;
+
   attendees: Attendee[];
-  attendeeCount: number;
-  capacity?: number;
-  distance?: number;             // populated when coords are passed to the API
+  attendeeTotalCount: number;
+  coHosts: Attendee[];
+
+  isFree: boolean;
+  price: number;
+
+  started: boolean;
+  ended: boolean;
+  expired: boolean;
+  open: boolean;
+  isPrivate: boolean;
+  requiresApproval: boolean;
+  flagged: boolean;
+
+  categoryId: number;
+  category: {
+    id: number;
+    name: string;
+    emoji: string;
+  };
+
+  isOwner: boolean;
+  isCoHost: boolean;
+  isAttending: boolean;
+  isInvited: boolean;
+  requestToJoinSent: boolean;
+  pendingRequests: number;
+
+  capacity: number; // 0 = unlimited
+  distance?: number;
+  distanceKM?: number;
+  channelName: string;
+  slug?: string;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-/** Calculate age from ISO 8601 date of birth */
 export function calcAge(dateOfBirth: string): number {
   const dob = new Date(dateOfBirth);
   const today = new Date();
@@ -116,7 +169,6 @@ export function calcAge(dateOfBirth: string): number {
   return age;
 }
 
-/** Build a social media URL from the platform urlFormat */
 export function buildSocialUrl(urlFormat: string, username: string): string {
   return urlFormat.replace("{0}", username);
 }

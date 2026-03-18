@@ -7,21 +7,19 @@ export interface AttendeeDisplayData {
 }
 
 export function getAttendeeDisplay(
-  host: Attendee,
+  ownerName: string,
   attendees: Attendee[],
   total: number
 ): AttendeeDisplayData {
-  const guests = attendees.filter((a) => a.id !== host.id);
-  const avatars = [host, ...guests].slice(0, 4);
+  const avatars = attendees.slice(0, 4);
 
   let label: string;
-  if (guests.length === 0) {
-    label = `${host.name} is hosting`;
-  } else if (guests.length === 1) {
-    label = `${host.name} and ${guests[0].name} are going`;
+  if (total === 0) {
+    label = `${ownerName} is attending`;
+  } else if (total === 1) {
+    label = `${ownerName} and 1 other`;
   } else {
-    const extras = total - 2;
-    label = `${host.name}, ${guests[0].name}${extras > 0 ? `, and ${extras} others` : ""} are going`;
+    label = `${ownerName} and ${total} others`;
   }
 
   return { label, avatars, totalCount: total };
