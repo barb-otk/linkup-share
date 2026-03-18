@@ -14,9 +14,10 @@ import { detectDevice, isMobile } from "@/lib/device";
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  const { data: event } = await fetchLinkupEvent(params.id);
+  const { id } = await params;
+  const { data: event } = await fetchLinkupEvent(id);
   if (!event) return { title: "Linkup" };
 
   return {
@@ -25,7 +26,7 @@ export async function generateMetadata({
     openGraph: {
       title: event.title,
       description: event.description,
-      images: [{ url: event.coverImageUrl }],
+      images: event.coverImageUrl ? [{ url: event.coverImageUrl }] : [],
     },
   };
 }
@@ -35,12 +36,13 @@ export async function generateMetadata({
 export default async function LinkupPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { data: event, error } = await fetchLinkupEvent(params.id);
+  const { id } = await params;
+  const { data: event, error } = await fetchLinkupEvent(id);
   if (!event || error) notFound();
 
-  const headersList = headers();
+  const headersList = await headers();
   const ua = headersList.get("user-agent") ?? "";
   const device = detectDevice(ua);
   const mobile = isMobile(device);

@@ -15,13 +15,15 @@ export async function generateMetadata({
   params,
   searchParams,
 }: {
-  params: { id: string };
-  searchParams: { self?: string };
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ self?: string }>;
 }): Promise<Metadata> {
-  const { data: profile } = await fetchUserProfile(params.id);
+  const { id } = await params;
+  const { self } = await searchParams;
+  const { data: profile } = await fetchUserProfile(id);
   if (!profile) return { title: "Linkup Profile" };
 
-  const isSelf = searchParams.self === "true";
+  const isSelf = self === "true";
   const title = isSelf
     ? `Check out my Linkup profile!`
     : `${profile.name} is on Linkup`;
@@ -43,13 +45,14 @@ export default async function ProfilePage({
   params,
   searchParams,
 }: {
-  params: { id: string };
-  searchParams: { self?: string };
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ self?: string }>;
 }) {
-  const { data: profile, error } = await fetchUserProfile(params.id);
+  const { id } = await params;
+  const { data: profile, error } = await fetchUserProfile(id);
   if (!profile || error) notFound();
 
-  const headersList = headers();
+  const headersList = await headers();
   const ua = headersList.get("user-agent") ?? "";
   const device = detectDevice(ua);
   const mobile = isMobile(device);
