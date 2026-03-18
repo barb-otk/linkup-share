@@ -66,8 +66,6 @@ export interface UserProfile {
       emoji: string;
     };
   }[];
-  // ⚠️ Avatar field name not confirmed yet — check with backend team
-  // Likely: profilePictureUrl | avatarUrl | imageUrl
   profilePictureUrl?: string;
 }
 

@@ -34,7 +34,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description: profile.bio,
-      images: [{ url: profile.avatarUrl }],
+      images: profile.profilePictureUrl ? [{ url: profile.profilePictureUrl }] : [],
     },
   };
 }
