@@ -1,0 +1,50 @@
+import { LinkupEvent, UserProfile, ApiResponse } from "@/types";
+
+const IDENTITY_BASE_URL = "https://dev.api.linkupapp.io/identity";
+const LINKUP_BASE_URL   = "https://dev.api.linkupapp.io/linkup";
+
+const DEFAULT_HEADERS = { Accept: "text/plain" };
+
+// ─── Profile ──────────────────────────────────────────────────────────────────
+// GET /api/v1.0/User/profile/{username}
+// Response: { records: { ... } }
+
+export async function fetchUserProfile(
+  username: string
+): Promise<ApiResponse<UserProfile>> {
+  try {
+    const res = await fetch(
+      `${IDENTITY_BASE_URL}/api/v1.0/User/profile/${username}`,
+      { headers: DEFAULT_HEADERS, next: { revalidate: 60 } }
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    return { data: json.records as UserProfile, error: null };
+  } catch (err) {
+    return { data: null, error: (err as Error).message };
+  }
+}
+
+// ─── Linkup Event ─────────────────────────────────────────────────────────────
+// GET /api/v2.0/Linkups/GetBySlug/{slug}?Longitude=X&Latitude=Y
+// Response: { records: { ... } }
+// Longitude/Latitude are optional — used for distance calc; pass 0,0 if unknown
+
+export async function fetchLinkupEvent(
+  slug: string,
+  coords?: { lat: number; lng: number }
+): Promise<ApiResponse<LinkupEvent>> {
+  try {
+    const lat = coords?.lat ?? 0;
+    const lng = coords?.lng ?? 0;
+    const res = await fetch(
+      `${LINKUP_BASE_URL}/api/v2.0/Linkups/GetBySlug/${slug}?Longitude=${lng}&Latitude=${lat}`,
+      { headers: DEFAULT_HEADERS, next: { revalidate: 60 } }
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    return { data: json.records as LinkupEvent, error: null };
+  } catch (err) {
+    return { data: null, error: (err as Error).message };
+  }
+}
