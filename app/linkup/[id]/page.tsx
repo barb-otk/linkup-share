@@ -4,10 +4,9 @@ import type { Metadata } from "next";
 
 import { fetchLinkupEvent } from "@/lib/api";
 import { detectDevice, isMobile } from "@/lib/device";
-
-// ── UI (implemented by Dev B) ─────────────────────────────────────────────────
-// import LinkupPageMobile  from "@/components/linkup/LinkupPageMobile";
-// import LinkupPageDesktop from "@/components/linkup/LinkupPageDesktop";
+import { getLinkupDeepLink } from "@/lib/deeplink";
+import LinkupPageMobile from "@/components/linkup/LinkupPageMobile";
+import LinkupPageDesktop from "@/components/linkup/LinkupPageDesktop";
 
 // ─── Open Graph metadata ──────────────────────────────────────────────────────
 
@@ -24,7 +23,7 @@ export async function generateMetadata({
     title: event.title,
     description: event.description,
     openGraph: {
-      title: event.title,
+      title: `Check out '${event.title}' on Linkup`,
       description: event.description,
       images: event.picture ? [{ url: event.picture }] : [],
     },
@@ -47,13 +46,6 @@ export default async function LinkupPage({
   const device = detectDevice(ua);
   const mobile = isMobile(device);
 
-  // Dev B wires up these components:
-  // if (mobile) return <LinkupPageMobile event={event} device={device} />;
-  // return <LinkupPageDesktop event={event} />;
-
-  return (
-    <pre className="p-8 text-sm">
-      {JSON.stringify({ event, device }, null, 2)}
-    </pre>
-  );
+  if (mobile) return <LinkupPageMobile event={event} device={device} />;
+  return <LinkupPageDesktop event={event} device={device} />;
 }

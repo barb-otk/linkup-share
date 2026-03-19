@@ -1,1 +1,52 @@
-export default function LinkupAttendees() { return <div data-component="LinkupAttendees" />; }
+import { LinkupEvent } from "@/types";
+
+interface Props {
+  event: LinkupEvent;
+}
+
+export default function LinkupAttendees({ event }: Props) {
+  const { attendees, ownerId, ownerName } = event;
+
+  const host = { id: ownerId, name: ownerName, profilePictureUrl: undefined };
+
+  // Confirmed attendees first, host last
+  const allAttendees = [...attendees, host];
+  const total = allAttendees.length;
+
+  return (
+    <div className="rounded-[26px] border border-white/15 bg-white/[0.07] backdrop-blur-[31.8px] px-5 py-4">
+      {/* Header */}
+      <div className="flex items-center gap-2 mb-4">
+        <img src="/icons/icon-friends.svg" alt="" className="w-[22px] h-[22px] shrink-0" />
+        <span className="text-white text-[14px] font-medium">
+          Attendees{" "}
+          <span className="text-white/50">({total})</span>
+        </span>
+      </div>
+
+      {/* Grid */}
+      <div className="grid grid-cols-4 gap-x-3 gap-y-6">
+        {allAttendees.map((attendee) => (
+          <div key={attendee.id} className="flex flex-col items-center gap-1">
+            <div className="w-[59px] h-[59px] rounded-full border-1.5 border-white overflow-hidden">
+              {attendee.profilePictureUrl ? (
+                <img
+                  src={attendee.profilePictureUrl}
+                  alt={attendee.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-white/10 backdrop-blur-[20px] flex items-center justify-center text-white text-lg font-semibold">
+                  {attendee.name[0]}
+                </div>
+              )}
+            </div>
+            <span className="text-white text-[12px] font-medium text-center leading-4 line-clamp-1 w-full">
+              {attendee.name.split(" ")[0]}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
