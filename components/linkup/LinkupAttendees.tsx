@@ -7,7 +7,7 @@ interface Props {
 export default function LinkupAttendees({ event }: Props) {
   const { attendees, ownerId, ownerName } = event;
 
-  const host = { id: ownerId, name: ownerName, profilePictureUrl: undefined };
+  const host = { id: ownerId, name: ownerName, picture: undefined };
 
   // Confirmed attendees first, host last
   const allAttendees = [...attendees, host];
@@ -30,9 +30,9 @@ export default function LinkupAttendees({ event }: Props) {
           <div key={attendee.id ?? `attendee-${i}`} className="flex flex-col items-center gap-1">
             <div className="w-[59px] h-[59px] rounded-full border-1.5 border-white/15 p-[1px]">
               <div className="w-full h-full rounded-full overflow-hidden">
-                {attendee.profilePictureUrl ? (
+                {attendee.picture ? (
                   <img
-                    src={attendee.profilePictureUrl}
+                    src={attendee.picture}
                     alt={attendee.name}
                     className="w-full h-full object-cover"
                   />

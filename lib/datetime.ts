@@ -12,7 +12,8 @@ export function getDateStatus(startTime: string, endTime: string): DateStatus {
 export function formatEventDate(
   startTime: string,
   endTime: string,
-  timeZoneId: string
+  timeZoneId: string,
+  timeZoneName?: string
 ): { mainLine: string; subLine: string } {
   const now = new Date();
   const start = new Date(startTime);
@@ -28,9 +29,11 @@ export function formatEventDate(
 
   const startTimeStr = fmt(start, timeOpts);
   const endTimeStr = fmt(end, timeOpts);
-  const timeZoneShort = fmt(start, { timeZoneName: "short" }).split(" ").pop() ?? timeZoneId;
-  // Use IANA timezone label, e.g. "Central Indonesia Time (GMT+8)" → "Central Indonesia Time"
-  // TODO: confirm with client if a custom label map is needed (e.g. "Bali time")
+  // Use timeZoneName if provided, stripping the GMT offset part
+  // e.g. "Central Indonesia Time (GMT+8)" → "Central Indonesia Time"
+  const timeZoneShort = timeZoneName
+    ? timeZoneName.replace(/\s*\(.*?\)/, "").trim()
+    : fmt(start, { timeZoneName: "long" }).split(", ").pop()?.trim() ?? timeZoneId;
 
   const isSameDay =
     fmt(start, { day: "numeric", month: "numeric", year: "numeric" }) ===

@@ -9,7 +9,7 @@ interface Props {
 
 export default function LinkupInfoRow({ event }: Props) {
   const allAttendees = [
-    { id: event.ownerId, name: event.ownerName, profilePictureUrl: undefined },
+    { id: event.ownerId, name: event.ownerName, picture: undefined },
     ...event.attendees,
   ];
 
@@ -22,7 +22,8 @@ export default function LinkupInfoRow({ event }: Props) {
   const { mainLine, subLine } = formatEventDate(
     event.startTime,
     event.endTime,
-    event.timeZoneId
+    event.timeZoneId,
+    event.timeZoneName
   );
 
   const locationName = event.googlePlace?.displayName?.text ?? event.city;
