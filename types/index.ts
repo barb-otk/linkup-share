@@ -54,7 +54,7 @@ export interface UserProfile {
     platform: {
       id: number;
       name: string;
-      urlFormat: string;
+      urlFormat: string; // "https://instagram.com/{0}" — replace {0} with username
     };
   }[];
   userInterests: {
@@ -74,7 +74,9 @@ export interface UserProfile {
 export interface Attendee {
   id: string;
   name: string;
-  profilePictureUrl?: string;
+  picture?: string;
+  pictureThumbnailUrl?: string;
+  isVerified?: boolean;
 }
 
 export interface GooglePlace {

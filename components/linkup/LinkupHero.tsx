@@ -11,7 +11,7 @@ interface Props {
 
 export default function LinkupHero({ event, device }: Props) {
   const allAttendees = [
-    { id: event.ownerId, name: event.ownerName, profilePictureUrl: undefined },
+    { id: event.ownerId, name: event.ownerName, picture: undefined },
     ...event.attendees,
   ];
 
@@ -50,7 +50,7 @@ export default function LinkupHero({ event, device }: Props) {
         </h1>
 
         {/* CTA button */}
-        <div className="w-full flex justify-center">
+        <div className="w-full">
           <JoinButton eventId={event.id} device={device} />
         </div>
       </div>

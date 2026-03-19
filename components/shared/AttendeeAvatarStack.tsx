@@ -28,9 +28,9 @@ export default function AttendeeAvatarStack({
           className={`relative ${dim} rounded-full overflow-hidden -ml-2 first:ml-0`}
           style={{ zIndex: visible.length - i }}
         >
-          {attendee.profilePictureUrl ? (
+          {attendee.picture ? (
             <img
-              src={attendee.profilePictureUrl}
+              src={attendee.picture}
               alt={attendee.name}
               className="w-full h-full object-cover"
             />
