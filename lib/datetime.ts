@@ -29,6 +29,8 @@ export function formatEventDate(
   const startTimeStr = fmt(start, timeOpts);
   const endTimeStr = fmt(end, timeOpts);
   const timeZoneShort = fmt(start, { timeZoneName: "short" }).split(" ").pop() ?? timeZoneId;
+  // Use IANA timezone label, e.g. "Central Indonesia Time (GMT+8)" → "Central Indonesia Time"
+  // TODO: confirm with client if a custom label map is needed (e.g. "Bali time")
 
   const isSameDay =
     fmt(start, { day: "numeric", month: "numeric", year: "numeric" }) ===
