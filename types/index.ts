@@ -65,7 +65,8 @@ export interface UserProfile {
       emoji: string;
     };
   }[];
-  profilePictureUrl?: string;
+  profilePhoto?: string;
+  profilePhotoThumbnailUrl?: string;
 }
 
 // ─── Linkup Event ─────────────────────────────────────────────────────────────
@@ -173,4 +174,10 @@ export function calcAge(dateOfBirth: string): number {
 
 export function buildSocialUrl(urlFormat: string, username: string): string {
   return urlFormat.replace("{0}", username);
+}
+
+export function countryCodeToFlag(alpha2Code: string): string {
+  return alpha2Code
+    .toUpperCase()
+    .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
 }

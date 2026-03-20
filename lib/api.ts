@@ -48,3 +48,23 @@ export async function fetchLinkupEvent(
     return { data: null, error: (err as Error).message };
   }
 }
+
+// ─── User Linkups ─────────────────────────────────────────────────────────────
+// GET /api/v2.0/Linkups/GetByUserId/{userId}
+// Response: { records: [...] }
+
+export async function fetchUserLinkups(
+  userId: string
+): Promise<ApiResponse<LinkupEvent[]>> {
+  try {
+    const res = await fetch(
+      `${LINKUP_BASE_URL}/api/v2.0/Linkups/GetByUserId/${userId}`,
+      { headers: DEFAULT_HEADERS, next: { revalidate: 60 } }
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    return { data: json.records as LinkupEvent[], error: null };
+  } catch (err) {
+    return { data: null, error: (err as Error).message };
+  }
+}

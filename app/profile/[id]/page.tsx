@@ -2,12 +2,10 @@ import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
-import { fetchUserProfile } from "@/lib/api";
+import { fetchUserProfile, fetchUserLinkups } from "@/lib/api";
 import { detectDevice, isMobile } from "@/lib/device";
-
-// ── UI (implemented by Dev B) ─────────────────────────────────────────────────
-// import ProfilePageMobile  from "@/components/profile/ProfilePageMobile";
-// import ProfilePageDesktop from "@/components/profile/ProfilePageDesktop";
+import ProfilePageMobile from "@/components/profile/ProfilePageMobile";
+import ProfilePageDesktop from "@/components/profile/ProfilePageDesktop";
 
 // ─── Open Graph metadata ──────────────────────────────────────────────────────
 
@@ -34,7 +32,9 @@ export async function generateMetadata({
     openGraph: {
       title,
       description: profile.bio,
-      images: profile.profilePictureUrl ? [{ url: profile.profilePictureUrl }] : [],
+      images: (profile.profilePhotoThumbnailUrl ?? profile.profilePhoto)
+        ? [{ url: (profile.profilePhotoThumbnailUrl ?? profile.profilePhoto)! }]
+        : [],
     },
   };
 }
@@ -43,7 +43,6 @@ export async function generateMetadata({
 
 export default async function ProfilePage({
   params,
-  searchParams,
 }: {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ self?: string }>;
@@ -52,18 +51,30 @@ export default async function ProfilePage({
   const { data: profile, error } = await fetchUserProfile(id);
   if (!profile || error) notFound();
 
-  const headersList = await headers();
+  const [headersList, { data: linkups }] = await Promise.all([
+    headers(),
+    fetchUserLinkups(profile.id),
+  ]);
+
   const ua = headersList.get("user-agent") ?? "";
   const device = detectDevice(ua);
   const mobile = isMobile(device);
 
-  // Dev B wires up these components:
-  // if (mobile) return <ProfilePageMobile profile={profile} device={device} />;
-  // return <ProfilePageDesktop profile={profile} />;
+  if (mobile) {
+    return (
+      <ProfilePageMobile
+        profile={profile}
+        device={device}
+        linkups={linkups ?? []}
+      />
+    );
+  }
 
   return (
-    <pre className="p-8 text-sm">
-      {JSON.stringify({ profile, device }, null, 2)}
-    </pre>
+    <ProfilePageDesktop
+      profile={profile}
+      device={device}
+      linkups={linkups ?? []}
+    />
   );
 }
