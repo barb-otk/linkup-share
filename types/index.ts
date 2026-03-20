@@ -73,11 +73,14 @@ export interface UserProfile {
 // GET {{LinkupBaseUrl}}/api/v2.0/Linkups/GetBySlug/{slug}
 
 export interface Attendee {
-  id: string;
-  name: string;
+  id?: string;
+  userId?: string;
+  name?: string;
+  userName?: string;
   picture?: string;
   pictureThumbnailUrl?: string;
   isVerified?: boolean;
+  verified?: boolean;
 }
 
 export interface GooglePlace {
@@ -107,7 +110,10 @@ export interface LinkupEvent {
 
   ownerId: string;
   ownerName: string;
+  ownerUsername: string;
   ownerVerified: boolean;
+  ownerPictureUrl?: string;
+  ownerPictureThumbnailUrl?: string;
 
   startTime: string;
   endTime: string;

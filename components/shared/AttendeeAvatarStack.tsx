@@ -24,7 +24,7 @@ export default function AttendeeAvatarStack({
     <div className="flex items-center">
       {visible.map((attendee, i) => (
         <div
-          key={attendee.id ?? `attendee-${i}`}
+          key={attendee.userId ?? attendee.id ?? `attendee-${i}`}
           className={`relative ${dim} rounded-full overflow-hidden -ml-2 first:ml-0`}
           style={{ zIndex: visible.length - i }}
         >
