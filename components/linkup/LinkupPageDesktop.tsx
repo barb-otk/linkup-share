@@ -23,8 +23,12 @@ export default function LinkupPageDesktop({ event, device }: Props) {
           <div className="flex flex-col gap-3 flex-1">
             {/* Host */}
             <div className="flex items-center gap-2 mb-1">
-              <div className="w-[25px] h-[25px] rounded-full overflow-hidden ring-[1.5px] ring-white shrink-0 bg-white/20 flex items-center justify-center text-white text-[10px] font-semibold">
-                {event.ownerName?.[0]}
+              <div className="w-[25px] h-[25px] rounded-full overflow-hidden shrink-0 bg-white/20 flex items-center justify-center text-white text-[10px] font-semibold">
+                {event.ownerPictureUrl ? (
+                  <img src={event.ownerPictureUrl} alt={event.ownerName} className="w-full h-full object-cover" />
+                ) : (
+                  event.ownerName?.[0]
+                )}
               </div>
               <span className="text-white/50 text-[13px]">
                 Hosted by{" "}

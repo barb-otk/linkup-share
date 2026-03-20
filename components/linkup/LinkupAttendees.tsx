@@ -7,10 +7,9 @@ interface Props {
 export default function LinkupAttendees({ event }: Props) {
   const { attendees, ownerId, ownerName } = event;
 
-  const host = { id: ownerId, name: ownerName, picture: undefined };
-
-  // Confirmed attendees first, host last
-  const allAttendees = [...attendees, host];
+  const host = { userId: ownerId, id: ownerId, name: ownerName, picture: event.ownerPictureUrl };
+  const hostAlreadyInList = attendees.some((a) => (a.userId ?? a.id) === ownerId);
+  const allAttendees = hostAlreadyInList ? attendees : [...attendees, host];
   const total = allAttendees.length;
 
   return (
@@ -27,7 +26,7 @@ export default function LinkupAttendees({ event }: Props) {
       {/* Grid */}
       <div className="grid grid-cols-4 gap-x-3 gap-y-6">
         {allAttendees.map((attendee, i) => (
-          <div key={attendee.id ?? `attendee-${i}`} className="flex flex-col items-center gap-1">
+          <div key={attendee.userId ?? attendee.id ?? `attendee-${i}`} className="flex flex-col items-center gap-1">
             <div className="w-[59px] h-[59px] rounded-full border-1.5 border-white/15 p-[1px]">
               <div className="w-full h-full rounded-full overflow-hidden">
                 {attendee.picture ? (

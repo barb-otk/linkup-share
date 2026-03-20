@@ -8,10 +8,9 @@ interface Props {
 }
 
 export default function LinkupInfoRow({ event }: Props) {
-  const allAttendees = [
-    { id: event.ownerId, name: event.ownerName, picture: undefined },
-    ...event.attendees,
-  ];
+  const host = { id: event.ownerId, name: event.ownerName, picture: event.ownerPictureUrl };
+  const hostAlreadyInList = event.attendees.some((a) => (a.userId ?? a.id) === event.ownerId);
+  const allAttendees = hostAlreadyInList ? event.attendees : [...event.attendees, host];
 
   const { label: attendeeSubLabel } = getAttendeeDisplay(
     event.ownerName,
