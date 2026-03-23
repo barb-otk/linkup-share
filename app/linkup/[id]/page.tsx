@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { fetchLinkupEvent } from "@/lib/api";
 import { detectDevice, isMobile } from "@/lib/device";
 import { getLinkupDeepLink } from "@/lib/deeplink";
+import { extractProfileColor } from "@/lib/extractColor";
 import LinkupPageMobile from "@/components/linkup/LinkupPageMobile";
 import LinkupPageDesktop from "@/components/linkup/LinkupPageDesktop";
 
@@ -41,11 +42,14 @@ export default async function LinkupPage({
   const { data: event, error } = await fetchLinkupEvent(id);
   if (!event || error) notFound();
 
-  const headersList = await headers();
+  const [headersList, eventColor] = await Promise.all([
+    headers(),
+    extractProfileColor(event.picture ?? ""),
+  ]);
   const ua = headersList.get("user-agent") ?? "";
   const device = detectDevice(ua);
   const mobile = isMobile(device);
 
-  if (mobile) return <LinkupPageMobile event={event} device={device} />;
-  return <LinkupPageDesktop event={event} device={device} />;
+  if (mobile) return <LinkupPageMobile event={event} device={device} eventColor={eventColor} />;
+  return <LinkupPageDesktop event={event} device={device} eventColor={eventColor} />;
 }

@@ -10,12 +10,13 @@ import DynamicBackground from "@/components/shared/DynamicBackground";
 interface Props {
   event: LinkupEvent;
   device: DeviceType;
+  eventColor: [number, number, number];
 }
 
-export default function LinkupPageDesktop({ event, device }: Props) {
+export default function LinkupPageDesktop({ event, device, eventColor }: Props) {
   if (!event) return null;
   return (
-    <DynamicBackground imageUrl={event.picture}>
+    <DynamicBackground color={eventColor}>
       <div className="max-w-[856px] mx-auto px-10 py-12">
         <div className="flex gap-8 items-start">
 
