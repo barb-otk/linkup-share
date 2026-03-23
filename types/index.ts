@@ -69,6 +69,35 @@ export interface UserProfile {
   profilePhotoThumbnailUrl?: string;
 }
 
+// ─── Public User Linkup (profile page cards) ──────────────────────────────────
+// GET {{LinkupBaseUrl}}/api/v2.0/Linkups/PublicUserLinkups?ProfileId=...
+
+export interface PublicUserLinkupParticipant {
+  id: string;
+  name: string;
+  profilePhoto?: string;
+  profilePhotoThumbnailUrl?: string;
+  verified: boolean;
+}
+
+export interface PublicUserLinkup {
+  id: string;
+  ownerId: string;
+  title: string;
+  picture: string;
+  pictureThumbnailUrl: string;
+  startTime: string;
+  endTime: string;
+  isOwner: boolean;
+  isCoHost: boolean;
+  sortAddress: string;
+  participantsCount: number;
+  attendeeTotalCount: number;
+  firstParticipants: PublicUserLinkupParticipant[];
+  firstAttendees: PublicUserLinkupParticipant[];
+  coHosts: PublicUserLinkupParticipant[];
+}
+
 // ─── Linkup Event ─────────────────────────────────────────────────────────────
 // GET {{LinkupBaseUrl}}/api/v2.0/Linkups/GetBySlug/{slug}
 

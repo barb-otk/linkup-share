@@ -1,44 +1,49 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getStoreUrl } from "@/lib/deeplink";
 import { DeviceType } from "@/lib/device";
 
 interface Props {
   device: DeviceType;
-  deepLink: string; // e.g. linkup://linkup/abc123
+  deepLink: string;
 }
 
 export default function TopBanner({ device, deepLink }: Props) {
   const [attempted, setAttempted] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const storeUrl =
-    device === "mobile-ios" ? getStoreUrl("ios") : getStoreUrl("android");
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 8);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
+  const storeUrl = device === "mobile-ios" ? getStoreUrl("ios") : getStoreUrl("android");
   const isDesktop = device === "desktop";
 
   function handleClick() {
     if (isDesktop) return;
-
-    // Try to open the app
     window.location.href = deepLink;
     setAttempted(true);
-
-    // If app doesn't open within 2s, redirect to store
     setTimeout(() => {
       window.location.href = storeUrl;
     }, 2000);
   }
 
   return (
-    <div className="flex items-center gap-3 px-4 py-2 bg-black w-full">
+    <div
+      className={`sticky top-0 z-50 flex items-center gap-3 px-4 py-2 w-full transition-all duration-300 ${
+        scrolled
+          ? "bg-black/40 backdrop-blur-[20px] backdrop-saturate-[180%]"
+          : "bg-transparent"
+      }`}
+    >
       {/* Logo */}
       <div className="shrink-0 w-[38px] h-[38px]">
-        <img
-          src="/linkup-logo.svg"
-          alt="Linkup"
-          className="w-full h-full object-contain"
-        />
+        <img src="/linkup-logo.svg" alt="Linkup" className="w-full h-full object-contain" />
       </div>
 
       {/* Text */}

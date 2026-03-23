@@ -12,11 +12,12 @@ import { getLinkupDeepLink } from "@/lib/deeplink";
 interface Props {
   event: LinkupEvent;
   device: DeviceType;
+  eventColor: [number, number, number];
 }
 
-export default function LinkupPageMobile({ event, device }: Props) {
+export default function LinkupPageMobile({ event, device, eventColor }: Props) {
   return (
-    <DynamicBackground imageUrl={event.picture}>
+    <DynamicBackground color={eventColor}>
       <TopBanner device={device} deepLink={getLinkupDeepLink(event.id)} />
       <div className="flex flex-col gap-3 px-4 py-4">
         <LinkupHero event={event} device={device} />
