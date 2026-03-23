@@ -4,8 +4,8 @@ import { DeviceType } from "@/lib/device";
 import { getProfileDeepLink, getStoreUrl } from "@/lib/deeplink";
 
 interface Props {
-  profileId: string;
-  device: DeviceType;
+  readonly profileId: string;
+  readonly device: DeviceType;
 }
 
 export default function AddFriendButton({ profileId, device }: Props) {
@@ -24,14 +24,16 @@ export default function AddFriendButton({ profileId, device }: Props) {
   return (
     <button
       onClick={handleClick}
-      className="w-full rounded-full text-white text-[16px] font-semibold py-4 text-center"
+      className="w-[183px] text-white text-center font-buckin-black text-[17px]"
       style={{
-        background: "linear-gradient(to right, #8325FF, #6B40FF, #4993FF)",
-        border: "1px solid rgba(255,255,255,0.15)",
-        boxShadow: "0 4px 11.9px rgba(0,0,0,0.15)",
+        borderRadius: "999px",
+        border: "1px solid rgba(255, 255, 255, 0.15)",
+        background: "linear-gradient(135deg, #8325FF 0%, #6B40FF 50%, #4993FF 100%)",
+        boxShadow: "0 4px 11.9px 0 rgba(0, 0, 0, 0.15)",
+        lineHeight: "45px",
       }}
     >
-      Add Friend 👋
+      Add friend
     </button>
   );
 }

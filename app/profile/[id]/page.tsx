@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 
 import { fetchUserProfile, fetchUserLinkups } from "@/lib/api";
 import { detectDevice, isMobile } from "@/lib/device";
+import { extractProfileColor } from "@/lib/extractColor";
 import ProfilePageMobile from "@/components/profile/ProfilePageMobile";
 import ProfilePageDesktop from "@/components/profile/ProfilePageDesktop";
 
@@ -51,9 +52,12 @@ export default async function ProfilePage({
   const { data: profile, error } = await fetchUserProfile(id);
   if (!profile || error) notFound();
 
-  const [headersList, { data: linkups }] = await Promise.all([
+  const imageUrl = profile.profilePhotoThumbnailUrl ?? profile.profilePhoto ?? "";
+
+  const [headersList, { data: linkups }, profileColor] = await Promise.all([
     headers(),
     fetchUserLinkups(profile.id),
+    extractProfileColor(imageUrl),
   ]);
 
   const ua = headersList.get("user-agent") ?? "";
@@ -66,6 +70,7 @@ export default async function ProfilePage({
         profile={profile}
         device={device}
         linkups={linkups ?? []}
+        profileColor={profileColor}
       />
     );
   }
@@ -75,6 +80,7 @@ export default async function ProfilePage({
       profile={profile}
       device={device}
       linkups={linkups ?? []}
+      profileColor={profileColor}
     />
   );
 }

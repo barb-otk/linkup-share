@@ -1,4 +1,4 @@
-import { LinkupEvent, UserProfile, ApiResponse } from "@/types";
+import { LinkupEvent, UserProfile, PublicUserLinkup, ApiResponse } from "@/types";
 
 const IDENTITY_BASE_URL = "https://dev.api.linkupapp.io/identity";
 const LINKUP_BASE_URL   = "https://dev.api.linkupapp.io/linkup";
@@ -49,21 +49,22 @@ export async function fetchLinkupEvent(
   }
 }
 
-// ─── User Linkups ─────────────────────────────────────────────────────────────
-// GET /api/v2.0/Linkups/GetByUserId/{userId}
-// Response: { records: [...] }
+// ─── User Linkups (profile page) ──────────────────────────────────────────────
+// GET /api/v2.0/Linkups/PublicUserLinkups?ProfileId=...&Page=1&PageSize=10
+// Response: { records: [...], paginationInfo: { ... } }
 
 export async function fetchUserLinkups(
-  userId: string
-): Promise<ApiResponse<LinkupEvent[]>> {
+  profileId: string,
+  pageSize = 10
+): Promise<ApiResponse<PublicUserLinkup[]>> {
   try {
     const res = await fetch(
-      `${LINKUP_BASE_URL}/api/v2.0/Linkups/GetByUserId/${userId}`,
+      `${LINKUP_BASE_URL}/api/v2.0/Linkups/PublicUserLinkups?Page=1&PageSize=${pageSize}&ProfileId=${profileId}&Latitude=0&Longitude=0`,
       { headers: DEFAULT_HEADERS, next: { revalidate: 60 } }
     );
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
-    return { data: json.records as LinkupEvent[], error: null };
+    return { data: json.records as PublicUserLinkup[], error: null };
   } catch (err) {
     return { data: null, error: (err as Error).message };
   }
