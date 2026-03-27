@@ -5,9 +5,6 @@ const LINKUP_BASE_URL   = "https://dev.api.linkupapp.io/linkup";
 
 const DEFAULT_HEADERS = { Accept: "text/plain" };
 
-// ─── Profile ──────────────────────────────────────────────────────────────────
-// GET /api/v1.0/User/profile/{username}
-// Response: { records: { ... } }
 
 export async function fetchUserProfile(
   username: string
