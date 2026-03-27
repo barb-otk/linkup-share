@@ -33,7 +33,7 @@ function LinkupCard({ linkup, ownerName }: { readonly linkup: PublicUserLinkup; 
   const hostName = ownerParticipant?.name?.split(" ")[0] ?? null;
 
   return (
-    <div className="relative flex items-center gap-4 rounded-[22px] border-[0.5px] border-[#949494] bg-white/[0.07] pl-[14px] py-[14px]">
+    <a href={`/linkup/${linkup.id}`} className="relative flex items-center gap-4 rounded-[22px] border-[0.5px] border-[#949494] bg-white/[0.07] pl-[14px] py-[14px] cursor-pointer">
 
       {/* Thumbnail */}
       <div className="relative w-[108px] h-[108px] shrink-0 rounded-[17px] overflow-hidden">
@@ -75,8 +75,7 @@ function LinkupCard({ linkup, ownerName }: { readonly linkup: PublicUserLinkup; 
             <div
               key={p.id ?? i}
               className="w-[25px] h-[25px] rounded-full overflow-hidden border border-white/20 shrink-0 -ml-[9px] first:ml-0"
-              style={{ zIndex: avatars.length - i, position: "relative" }}
-            >
+              >
               <ParticipantAvatar participant={p} />
             </div>
           ))}
@@ -94,10 +93,10 @@ function LinkupCard({ linkup, ownerName }: { readonly linkup: PublicUserLinkup; 
       </div>
 
       {/* Arrow icon — absolute right */}
-      <button className="absolute right-[14px] bottom-[14px] text-white/50 hover:text-white transition-colors shrink-0">
+      <div className="absolute right-[14px] bottom-[14px] text-white/50 shrink-0">
         <ArrowIcon />
-      </button>
-    </div>
+      </div>
+    </a>
   );
 }
 

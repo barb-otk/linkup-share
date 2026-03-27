@@ -1,6 +1,5 @@
 import { type PublicUserLinkup, UserProfile, calcAge } from "@/types";
 import { DeviceType } from "@/lib/device";
-import { getProfileDeepLink } from "@/lib/deeplink";
 import TopBanner from "@/components/shared/TopBanner";
 import DynamicBackground from "@/components/shared/DynamicBackground";
 import ProfileAbout from "@/components/profile/ProfileAbout";
@@ -25,7 +24,7 @@ export default function ProfilePageMobile({ profile, device, linkups, profileCol
 
   return (
     <DynamicBackground color={profileColor}>
-      <TopBanner device={device} deepLink={getProfileDeepLink(profile.id)} />
+      <TopBanner device={device} />
 
       <div className="flex flex-col gap-4 px-[22px] pt-6 pb-32">
 
@@ -81,11 +80,11 @@ export default function ProfilePageMobile({ profile, device, linkups, profileCol
         <ProfileLinkups linkups={linkups} ownerName={profile.name} />
       </div>
 
-      <Footer />
+      <Footer mobile />
 
       {/* Fixed bottom CTA */}
       <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pt-4 pb-8">
-        <AddFriendButton profileId={profile.id} device={device} />
+        <AddFriendButton profileUsername={profile.userName} firstName={profile.firstName} device={device} />
       </div>
     </DynamicBackground>
   );

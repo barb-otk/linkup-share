@@ -5,11 +5,10 @@ import { getStoreUrl } from "@/lib/deeplink";
 import { DeviceType } from "@/lib/device";
 
 interface Props {
-  device: DeviceType;
-  deepLink: string;
+  readonly device: DeviceType;
 }
 
-export default function TopBanner({ device, deepLink }: Props) {
+export default function TopBanner({ device }: Props) {
   const [attempted, setAttempted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -21,16 +20,13 @@ export default function TopBanner({ device, deepLink }: Props) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const storeUrl = device === "mobile-ios" ? getStoreUrl("ios") : getStoreUrl("android");
   const isDesktop = device === "desktop";
+  const storeUrl = device === "mobile-ios" ? getStoreUrl("ios") : getStoreUrl("android");
 
   function handleClick() {
     if (isDesktop) return;
-    window.location.href = deepLink;
+    window.location.href = storeUrl;
     setAttempted(true);
-    setTimeout(() => {
-      window.location.href = storeUrl;
-    }, 2000);
   }
 
   return (

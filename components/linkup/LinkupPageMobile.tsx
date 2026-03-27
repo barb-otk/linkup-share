@@ -7,7 +7,6 @@ import LinkupDescription from "@/components/linkup/LinkupDescription";
 import LinkupMap from "@/components/linkup/LinkupMap";
 import LinkupAttendees from "@/components/linkup/LinkupAttendees";
 import DynamicBackground from "@/components/shared/DynamicBackground";
-import { getLinkupDeepLink } from "@/lib/deeplink";
 
 interface Props {
   event: LinkupEvent;
@@ -18,7 +17,7 @@ interface Props {
 export default function LinkupPageMobile({ event, device, eventColor }: Props) {
   return (
     <DynamicBackground color={eventColor}>
-      <TopBanner device={device} deepLink={getLinkupDeepLink(event.id)} />
+      <TopBanner device={device} />
       <div className="flex flex-col gap-3 px-4 py-4">
         <LinkupHero event={event} device={device} />
         <LinkupInfoRow event={event} />

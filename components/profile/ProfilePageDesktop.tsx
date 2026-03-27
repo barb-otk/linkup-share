@@ -103,7 +103,7 @@ export default function ProfilePageDesktop({ profile, device, linkups, profileCo
                   </div>
                 )}
 
-                <AddFriendButton profileId={profile.id} device={device} />
+                <AddFriendButton profileUsername={profile.userName} firstName={profile.firstName} device={device} />
               </div>
             </div>
           </div>

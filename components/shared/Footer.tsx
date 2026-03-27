@@ -9,10 +9,13 @@ const NAV_LINKS = [
   { label: "Help Centre", href: "/help" },
 ];
 
-export default function Footer() {
+interface Props {
+  readonly mobile?: boolean;
+}
+
+export default function Footer({ mobile = false }: Props) {
   return (
-    <footer className="flex flex-col items-center gap-6 px-4 py-10">
-      {/* Nav links */}
+    <footer className={`flex flex-col items-center gap-6 px-4 pt-10 ${mobile ? "pb-28" : "pb-10"}`}>
       <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
         {NAV_LINKS.map((link) => (
           <a
@@ -25,23 +28,16 @@ export default function Footer() {
         ))}
       </nav>
 
-      {/* App store buttons */}
-      <div className="flex items-center gap-6">
-        <a href={APP_STORE_URL} aria-label="Download on the App Store">
-          <AppleIcon />
-        </a>
-        <a href={PLAY_STORE_URL} aria-label="Get it on Google Play">
-          <GooglePlayIcon />
-        </a>
-      </div>
+      {!mobile && (
+        <div className="flex items-center gap-6">
+          <a href={APP_STORE_URL} aria-label="Download on the App Store">
+            <img src="/icons/icon-apple.svg" alt="App Store" className="w-5 h-auto" />
+          </a>
+          <a href={PLAY_STORE_URL} aria-label="Get it on Google Play">
+            <img src="/icons/icon-playstore.svg" alt="Google Play" className="w-5 h-auto" />
+          </a>
+        </div>
+      )}
     </footer>
   );
-}
-
-function AppleIcon() {
-  return <img src="/icons/icon-apple.svg" alt="App Store" className="w-5 h-auto" />;
-}
-
-function GooglePlayIcon() {
-  return <img src="/icons/icon-playstore.svg" alt="Google Play" className="w-5 h-auto" />;
 }
