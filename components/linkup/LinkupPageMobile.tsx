@@ -6,6 +6,7 @@ import LinkupInfoRow from "@/components/linkup/LinkupInfoRow";
 import LinkupDescription from "@/components/linkup/LinkupDescription";
 import LinkupMap from "@/components/linkup/LinkupMap";
 import LinkupAttendees from "@/components/linkup/LinkupAttendees";
+import JoinButton from "@/components/linkup/JoinButton";
 import DynamicBackground from "@/components/shared/DynamicBackground";
 
 interface Props {
@@ -16,7 +17,7 @@ interface Props {
 
 export default function LinkupPageMobile({ event, device, eventColor }: Props) {
   return (
-    <DynamicBackground color={eventColor}>
+    <DynamicBackground color={eventColor} mobile>
       <TopBanner device={device} />
       <div className="flex flex-col gap-3 px-4 py-4">
         <LinkupHero event={event} device={device} />
@@ -25,6 +26,7 @@ export default function LinkupPageMobile({ event, device, eventColor }: Props) {
         <LinkupMap event={event} />
         <LinkupAttendees event={event} />
       </div>
+      <JoinButton eventId={event.id} device={device} />
     </DynamicBackground>
   );
 }

@@ -6,7 +6,7 @@ const NAV_LINKS = [
   { label: "Privacy", href: "/privacy" },
   { label: "Cookie", href: "/cookie" },
   { label: "Contact", href: "/contact" },
-  { label: "Help Centre", href: "/help" },
+  { label: "Help Center", href: "/help" },
 ];
 
 interface Props {
@@ -15,8 +15,8 @@ interface Props {
 
 export default function Footer({ mobile = false }: Props) {
   return (
-    <footer className={`flex flex-col items-center gap-6 px-4 pt-10 ${mobile ? "pb-28" : "pb-10"}`}>
-      <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+    <footer className={`flex flex-col items-center gap-8 px-4 pt-16 ${mobile ? "pb-28" : "pb-16"}`}>
+      <nav className="flex flex-wrap justify-center gap-x-10 gap-y-3">
         {NAV_LINKS.map((link) => (
           <a
             key={link.href}
@@ -29,7 +29,7 @@ export default function Footer({ mobile = false }: Props) {
       </nav>
 
       {!mobile && (
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-8">
           <a href={APP_STORE_URL} aria-label="Download on the App Store">
             <img src="/icons/icon-apple.svg" alt="App Store" className="w-5 h-auto" />
           </a>

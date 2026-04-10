@@ -32,7 +32,7 @@ export default function LinkupDescription({ description }: Props) {
         {isLong && !expanded && (
           <button
             onClick={() => setExpanded(true)}
-            className="text-white font-semibold inline"
+            className="text-white font-semibold inline cursor-pointer"
           >
             See more
           </button>

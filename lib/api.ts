@@ -1,7 +1,7 @@
 import { LinkupEvent, UserProfile, PublicUserLinkup, ApiResponse } from "@/types";
 
-const IDENTITY_BASE_URL = "https://dev.api.linkupapp.io/identity";
-const LINKUP_BASE_URL   = "https://dev.api.linkupapp.io/linkup";
+const IDENTITY_BASE_URL = process.env.NEXT_PUBLIC_IDENTITY_API_URL!;
+const LINKUP_BASE_URL   = process.env.NEXT_PUBLIC_LINKUP_API_URL!;
 
 const DEFAULT_HEADERS = { Accept: "text/plain" };
 

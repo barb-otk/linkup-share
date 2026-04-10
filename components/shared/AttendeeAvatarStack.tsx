@@ -18,7 +18,8 @@ export default function AttendeeAvatarStack({
   const visible = showAll ? attendees.slice(0, 5) : attendees.slice(0, 4);
   const overflowCount = showAll ? 0 : totalCount - 4;
 
-  const pillClass = `bg-white/10 border border-white backdrop-blur-[20px]`;
+  const pillClass = `bg-white/10 backdrop-blur-[20px]`;
+  const border = { border: "1.5px solid #FFFFFF" };
 
   return (
     <div className="flex items-center">
@@ -26,7 +27,7 @@ export default function AttendeeAvatarStack({
         <div
           key={attendee.userId ?? attendee.id ?? `attendee-${i}`}
           className={`relative ${dim} rounded-full overflow-hidden -ml-2 first:ml-0`}
-          style={{ zIndex: visible.length - i }}
+          style={{ zIndex: i, ...border }}
         >
           {attendee.picture ? (
             <img
@@ -43,7 +44,10 @@ export default function AttendeeAvatarStack({
       ))}
 
       {overflowCount > 0 && (
-        <div className={`relative ${dim} rounded-full flex items-center justify-center -ml-2 ${pillClass}`}>
+        <div
+          className={`relative ${dim} rounded-full flex items-center justify-center -ml-2 ${pillClass}`}
+          style={border}
+        >
           <span className={`text-white ${text} font-semibold tracking-[-0.15px]`}>
             {overflowCount}+
           </span>
