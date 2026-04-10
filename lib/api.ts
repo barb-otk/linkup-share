@@ -5,7 +5,6 @@ const LINKUP_BASE_URL   = process.env.NEXT_PUBLIC_LINKUP_API_URL!;
 
 const DEFAULT_HEADERS = { Accept: "text/plain" };
 
-
 export async function fetchUserProfile(
   username: string
 ): Promise<ApiResponse<UserProfile>> {
@@ -22,11 +21,6 @@ export async function fetchUserProfile(
   }
 }
 
-// ─── Linkup Event ─────────────────────────────────────────────────────────────
-// GET /api/v2.0/Linkups/GetBySlug/{slug}?Longitude=X&Latitude=Y
-// Response: { records: { ... } }
-// Longitude/Latitude are optional — used for distance calc; pass 0,0 if unknown
-
 export async function fetchLinkupEvent(
   slug: string,
   coords?: { lat: number; lng: number }
@@ -34,21 +28,23 @@ export async function fetchLinkupEvent(
   try {
     const lat = coords?.lat ?? 0;
     const lng = coords?.lng ?? 0;
-    const res = await fetch(
-      `${LINKUP_BASE_URL}/api/v2.0/Linkups/GetBySlug/${slug}?Longitude=${lng}&Latitude=${lat}`,
-      { headers: DEFAULT_HEADERS, next: { revalidate: 60 } }
-    );
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const url = `${LINKUP_BASE_URL}/api/v2.0/Linkups/GetBySlug/${slug}?Longitude=${lng}&Latitude=${lat}`;
+    console.log("[fetchLinkupEvent] fetching:", url);
+    const res = await fetch(url, { headers: DEFAULT_HEADERS, next: { revalidate: 60 } });
+    console.log("[fetchLinkupEvent] status:", res.status);
+    if (!res.ok) {
+      const text = await res.text();
+      console.log("[fetchLinkupEvent] error body:", text);
+      throw new Error(`HTTP ${res.status}`);
+    }
     const json = await res.json();
+    console.log("[fetchLinkupEvent] records:", JSON.stringify(json.records).slice(0, 200));
     return { data: json.records as LinkupEvent, error: null };
   } catch (err) {
+    console.log("[fetchLinkupEvent] catch:", (err as Error).message);
     return { data: null, error: (err as Error).message };
   }
 }
-
-// ─── User Linkups (profile page) ──────────────────────────────────────────────
-// GET /api/v2.0/Linkups/PublicUserLinkups?ProfileId=...&Page=1&PageSize=10
-// Response: { records: [...], paginationInfo: { ... } }
 
 export async function fetchUserLinkups(
   profileId: string,
