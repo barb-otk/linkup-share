@@ -6,6 +6,7 @@ import LinkupDescription from "@/components/linkup/LinkupDescription";
 import LinkupMap from "@/components/linkup/LinkupMap";
 import LinkupAttendees from "@/components/linkup/LinkupAttendees";
 import DynamicBackground from "@/components/shared/DynamicBackground";
+import Footer from "@/components/shared/Footer";
 
 interface Props {
   event: LinkupEvent;
@@ -24,7 +25,10 @@ export default function LinkupPageDesktop({ event, device, eventColor }: Props) 
           <div className="flex flex-col gap-3 flex-1">
             {/* Host */}
             <div className="flex items-center gap-2 mb-1">
-              <div className="w-[25px] h-[25px] rounded-full overflow-hidden shrink-0 bg-white/20 flex items-center justify-center text-white text-[10px] font-semibold">
+              <div
+                className="w-[25px] h-[25px] rounded-full overflow-hidden shrink-0 bg-white/20 flex items-center justify-center text-white text-[10px] font-semibold"
+                style={{ border: "1.5px solid #FFFFFF" }}
+              >
                 {event.ownerPictureUrl ? (
                   <img src={event.ownerPictureUrl} alt={event.ownerName} className="w-full h-full object-cover" />
                 ) : (
@@ -42,16 +46,9 @@ export default function LinkupPageDesktop({ event, device, eventColor }: Props) 
               {event.title}
             </h1>
 
-            {/* Info rows */}
             <LinkupInfoRow event={event} />
-
-            {/* Description */}
             <LinkupDescription description={event.description} />
-
-            {/* Map */}
             <LinkupMap event={event} />
-
-            {/* Attendees grid */}
             <LinkupAttendees event={event} />
           </div>
 
@@ -62,6 +59,7 @@ export default function LinkupPageDesktop({ event, device, eventColor }: Props) 
 
         </div>
       </div>
+      <Footer />
     </DynamicBackground>
   );
 }

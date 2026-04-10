@@ -23,7 +23,7 @@ export default function ProfilePageMobile({ profile, device, linkups, profileCol
   const [r, g, b] = profileColor;
 
   return (
-    <DynamicBackground color={profileColor}>
+    <DynamicBackground color={profileColor} mobile>
       <TopBanner device={device} />
 
       <div className="flex flex-col gap-4 px-[22px] pt-6 pb-32">

@@ -46,6 +46,9 @@ export default async function LinkupPage({
     headers(),
     extractProfileColor(event.picture ?? ""),
   ]);
+
+  console.log("eventColor:", eventColor); // aqui dentro
+
   const ua = headersList.get("user-agent") ?? "";
   const device = detectDevice(ua);
   const mobile = isMobile(device);
