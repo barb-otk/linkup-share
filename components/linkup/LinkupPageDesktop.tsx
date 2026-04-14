@@ -57,7 +57,7 @@ export default function LinkupPageDesktop({ event, device, eventColor }: Props) 
 
           {/* Right column — Hero card */}
           <div className="w-[315px] shrink-0 sticky top-12">
-            <LinkupHero event={event} device={device} />
+            <LinkupHero event={event} device={device} eventColor={eventColor} />
           </div>
 
         </div>

@@ -12,12 +12,24 @@ interface Props {
 
 export default function AddFriendButton({ profileUsername, firstName, device }: Props) {
   const [showModal, setShowModal] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const isDesktop = device === "desktop";
   const deepLink = getProfileDeepLink(profileUsername);
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=201x201&data=${encodeURIComponent(deepLink)}`;
+
+  function openModal() {
+    setShowModal(true);
+    setTimeout(() => setModalVisible(true), 10);
+  }
+
+  function closeModal() {
+    setModalVisible(false);
+    setTimeout(() => setShowModal(false), 300);
+  }
 
   function handleClick() {
     if (isDesktop) {
-      setShowModal(true);
+      openModal();
       return;
     }
     window.location.href = deepLink;
@@ -26,57 +38,70 @@ export default function AddFriendButton({ profileUsername, firstName, device }: 
     }, 2000);
   }
 
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=201x201&data=${encodeURIComponent(deepLink)}`;
+  const buttonEl = (
+    <button
+      onClick={handleClick}
+      className="w-[183px] h-[41px] text-white text-center font-buckin-black text-[17px] cursor-pointer"
+      style={{
+        borderRadius: "999px",
+        border: "1px solid rgba(255, 255, 255, 0.15)",
+        background: "linear-gradient(135deg, #8325FF 0%, #6B40FF 50%, #4993FF 100%)",
+        boxShadow: "0 4px 11.9px 0 rgba(0, 0, 0, 0.15)",
+        lineHeight: "41px",
+      }}
+    >
+      Add friend
+    </button>
+  );
+
+  const modal = showModal && (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-[62.5px] bg-black/10"
+      style={{ opacity: modalVisible ? 1 : 0, transition: "opacity 0.3s ease" }}
+      onClick={closeModal}
+    >
+      <div
+        className="relative backdrop-blur-[100px] bg-white/[0.14] border border-white/15 rounded-[27px] px-[59px] py-[35px] w-[319px] flex flex-col gap-[26px] items-center"
+        style={{
+          transform: modalVisible ? "scale(1)" : "scale(0.95)",
+          transition: "transform 0.3s ease, opacity 0.3s ease",
+          opacity: modalVisible ? 1 : 0,
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={closeModal}
+          className="absolute top-4 right-4 w-[28px] h-[28px] rounded-full bg-white/20 flex items-center justify-center cursor-pointer"
+        >
+          <CloseIcon />
+        </button>
+        <p className="text-white text-[20px] font-buckin-black tracking-[-0.3px] text-center" style={{ lineHeight: "21px" }}>
+          Scan with your phone to
+          <br />
+          download Linkup and
+          <br />
+          connect with {firstName ?? "them"}
+        </p>
+        <div className="w-full aspect-square rounded-lg overflow-hidden bg-white p-3">
+          <img src={qrUrl} alt="QR Code" className="w-full h-full object-cover" />
+        </div>
+      </div>
+    </div>
+  );
+
+  if (isDesktop) {
+    return (
+      <>
+        {buttonEl}
+        {modal}
+      </>
+    );
+  }
 
   return (
     <>
-      <button
-        onClick={handleClick}
-        className="w-[183px] text-white text-center font-buckin-black text-[17px] cursor-pointer"
-        style={{
-          borderRadius: "999px",
-          border: "1px solid rgba(255, 255, 255, 0.15)",
-          background: "linear-gradient(135deg, #8325FF 0%, #6B40FF 50%, #4993FF 100%)",
-          boxShadow: "0 4px 11.9px 0 rgba(0, 0, 0, 0.15)",
-          lineHeight: "45px",
-        }}
-      >
-        Add friend
-      </button>
-
-      {showModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-[62.5px] bg-black/10"
-          onClick={() => setShowModal(false)}
-        >
-          <div
-            className="relative backdrop-blur-[100px] bg-white/[0.14] border border-white/15 rounded-[27px] px-[59px] py-[35px] w-[319px] flex flex-col gap-[26px] items-center shadow-[-5px_10px_15px_0px_rgba(0,0,0,0.05)]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close button */}
-            <button
-              onClick={() => setShowModal(false)}
-              className="absolute top-5 right-5 w-[21px] h-[21px] rounded-full bg-white/20 flex items-center justify-center cursor-pointer"
-            >
-              <CloseIcon />
-            </button>
-
-            {/* Title */}
-            <p className="text-white text-[20px] font-buckin-black tracking-[-0.3px] text-center" style={{ lineHeight: "21px" }}>
-              Scan with your phone to{" "}
-              <br />
-              download Linkup and
-              <br />
-              connect with {firstName ?? "them"}
-            </p>
-
-            {/* QR Code */}
-            <div className="w-full aspect-square rounded-lg overflow-hidden">
-              <img src={qrUrl} alt="QR Code" className="w-full h-full object-cover" />
-            </div>
-          </div>
-        </div>
-      )}
+      {buttonEl}
+      {modal}
     </>
   );
 }

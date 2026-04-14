@@ -7,9 +7,10 @@ import JoinButton from "@/components/linkup/JoinButton";
 interface Props {
   event: LinkupEvent;
   device: DeviceType;
+  eventColor: [number, number, number];
 }
 
-export default function LinkupHero({ event, device }: Props) {
+export default function LinkupHero({ event, device, eventColor }: Props) {
   const host = { id: event.ownerId, name: event.ownerName, picture: event.ownerPictureUrl };
   const hostAlreadyInList = event.attendees.some((a) => (a.userId ?? a.id) === event.ownerId);
   const allAttendees = hostAlreadyInList ? event.attendees : [...event.attendees, host];
@@ -44,7 +45,7 @@ export default function LinkupHero({ event, device }: Props) {
         </h1>
         {isDesktop && (
           <div className="w-[70%]">
-            <JoinButton eventId={event.id} device={device} />
+            <JoinButton eventId={event.id} device={device} eventColor={eventColor} />
           </div>
         )}
       </div>
