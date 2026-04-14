@@ -20,7 +20,7 @@ export default function LinkupPageMobile({ event, device, eventColor }: Props) {
     <DynamicBackground color={eventColor} mobile>
       <TopBanner device={device} />
       <div className="flex flex-col gap-3 px-4 py-4">
-        <LinkupHero event={event} device={device} />
+        <LinkupHero event={event} device={device} eventColor={eventColor} />
         <LinkupInfoRow event={event} />
         <LinkupDescription description={event.description} />
         <LinkupMap event={event} />
