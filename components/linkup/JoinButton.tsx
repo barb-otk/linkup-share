@@ -7,9 +7,10 @@ import { getLinkupDeepLink, getStoreUrl } from "@/lib/deeplink";
 interface Props {
   eventId: string;
   device: DeviceType;
+  eventColor: [number, number, number];
 }
 
-export default function JoinButton({ eventId, device }: Props) {
+export default function JoinButton({ eventId, device, eventColor }: Props) {
   const anchorRef = useRef<HTMLDivElement>(null);
   const [isFixed, setIsFixed] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -17,6 +18,7 @@ export default function JoinButton({ eventId, device }: Props) {
   const isDesktop = device === "desktop";
   const deepLink = getLinkupDeepLink(eventId);
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=201x201&data=${encodeURIComponent(deepLink)}`;
+  const [r, g, b] = eventColor;
 
   useEffect(() => {
     if (isDesktop) return;
@@ -66,10 +68,7 @@ export default function JoinButton({ eventId, device }: Props) {
   const modal = showModal && (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-[62.5px] bg-black/10"
-      style={{
-        opacity: modalVisible ? 1 : 0,
-        transition: "opacity 0.3s ease",
-      }}
+      style={{ opacity: modalVisible ? 1 : 0, transition: "opacity 0.3s ease" }}
       onClick={closeModal}
     >
       <div
@@ -87,7 +86,6 @@ export default function JoinButton({ eventId, device }: Props) {
         >
           <CloseIcon />
         </button>
-
         <p className="text-white text-[20px] font-buckin-black tracking-[-0.3px] text-center" style={{ lineHeight: "21px" }}>
           Scan with your phone to
           <br />
@@ -95,7 +93,6 @@ export default function JoinButton({ eventId, device }: Props) {
           <br />
           join this linkup
         </p>
-
         <div className="w-full aspect-square rounded-lg overflow-hidden bg-white p-3">
           <img src={qrUrl} alt="QR Code" className="w-full h-full object-cover" />
         </div>
@@ -115,13 +112,13 @@ export default function JoinButton({ eventId, device }: Props) {
   return (
     <>
       <div ref={anchorRef} className="h-px w-full mt-3" />
-
       <div
-        className="fixed bottom-0 left-0 right-0 z-50 px-4 pb-4 pt-3 flex justify-center"
+        className="fixed bottom-0 left-0 right-0 z-50 px-4 pb-4 pt-6 flex justify-center"
         style={{
           opacity: isFixed ? 1 : 0,
           pointerEvents: isFixed ? "auto" : "none",
           transition: "opacity 0.5s ease",
+          background: `linear-gradient(to top, rgb(${r},${g},${b}) 0%, transparent 100%)`,
         }}
       >
         <div className="w-[65%]">{buttonEl}</div>

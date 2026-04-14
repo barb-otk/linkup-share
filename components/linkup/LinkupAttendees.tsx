@@ -70,7 +70,7 @@ export default function LinkupAttendees({ event }: Props) {
               </span>
 
               <span className="text-white/50 font-normal text-[9px] leading-[16px] tracking-[0.03em] text-center line-clamp-1 w-full">
-                {attendee.userName ?? attendee.name?.toLowerCase().replace(/\s+/g, "") ?? ""}
+                @{attendee.userName ?? attendee.name?.toLowerCase().replace(/\s+/g, "") ?? ""}
               </span>
             </div>
           );

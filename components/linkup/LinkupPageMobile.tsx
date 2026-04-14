@@ -26,7 +26,7 @@ export default function LinkupPageMobile({ event, device, eventColor }: Props) {
         <LinkupMap event={event} />
         <LinkupAttendees event={event} />
       </div>
-      <JoinButton eventId={event.id} device={device} />
+      <JoinButton eventId={event.id} device={device} eventColor={eventColor} />
     </DynamicBackground>
   );
 }

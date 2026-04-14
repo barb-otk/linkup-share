@@ -24,15 +24,17 @@ export async function generateMetadata({
 
   const isSelf = self === "true";
   const title = isSelf
-    ? `Check out my Linkup profile!`
-    : `${profile.name} is on Linkup`;
+    ? `Check me out on Linkup`
+    : `Check out ${profile.firstName || profile.name} on Linkup`;
+
+  const description = "Linkup is the app to meet new people through shared real life experiences happening near you.";
 
   return {
     title,
-    description: profile.bio,
+    description,
     openGraph: {
       title,
-      description: profile.bio,
+      description,
       images: (profile.profilePhotoThumbnailUrl ?? profile.profilePhoto)
         ? [{ url: (profile.profilePhotoThumbnailUrl ?? profile.profilePhoto)! }]
         : [],
