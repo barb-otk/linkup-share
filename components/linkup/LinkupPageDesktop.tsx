@@ -22,34 +22,37 @@ export default function LinkupPageDesktop({ event, device, eventColor }: Props) 
         <div className="flex gap-8 items-start">
 
           {/* Left column */}
-          <div className="flex flex-col gap-3 flex-1">
-            {/* Host */}
-            <div className="flex items-center gap-2 mb-1">
-              <div
-                className="w-[25px] h-[25px] rounded-full overflow-hidden shrink-0 bg-white/20 flex items-center justify-center text-white text-[10px] font-semibold"
-                style={{ border: "1.5px solid #FFFFFF" }}
-              >
-                {event.ownerPictureUrl ? (
-                  <img src={event.ownerPictureUrl} alt={event.ownerName} className="w-full h-full object-cover" />
-                ) : (
-                  event.ownerName?.[0]
-                )}
+          <div className="flex flex-col flex-1">
+              {/* Host */}
+              <div className="flex items-center gap-2 mb-[16px]">
+                <div
+                  className="w-[25px] h-[25px] rounded-full overflow-hidden shrink-0 bg-white/20 flex items-center justify-center text-white text-[10px] font-semibold"
+                  style={{ border: "1.5px solid #FFFFFF" }}
+                >
+                  {event.ownerPictureUrl ? (
+                    <img src={event.ownerPictureUrl} alt={event.ownerName} className="w-full h-full object-cover" />
+                  ) : (
+                    event.ownerName?.[0]
+                  )}
+                </div>
+                <span className="text-white/50 text-[13px]">
+                  Hosted by{" "}
+                  <span className="text-white font-semibold">{event.ownerName}</span>
+                </span>
               </div>
-              <span className="text-white/50 text-[13px]">
-                Hosted by{" "}
-                <span className="text-white font-semibold">{event.ownerName}</span>
-              </span>
+
+              {/* Title */}
+              <h1 className="text-white text-[32px] font-buckin-black font-black tracking-[-0.48px] leading-tight mb-[29px]">
+                {event.title}
+              </h1>
+
+            <div className="flex flex-col gap-[13px]">
+              <LinkupInfoRow event={event} />
+              <LinkupDescription description={event.description} />
+              <LinkupMap event={event} />
+              <LinkupAttendees event={event} />
             </div>
-
-            {/* Title */}
-            <h1 className="text-white text-[32px] font-black tracking-[-0.48px] leading-tight">
-              {event.title}
-            </h1>
-
-            <LinkupInfoRow event={event} />
-            <LinkupDescription description={event.description} />
-            <LinkupMap event={event} />
-            <LinkupAttendees event={event} />
+            
           </div>
 
           {/* Right column — Hero card */}

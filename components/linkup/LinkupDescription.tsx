@@ -27,7 +27,7 @@ export default function LinkupDescription({ description }: Props) {
       </div>
 
       {/* Body */}
-      <p className="text-white/80 text-[14px] leading-6">
+      <p className="text-white font-light text-[14px] leading-6">
         {expanded || !isLong ? description : <>{truncated}…{" "}</>}
         {isLong && !expanded && (
           <button

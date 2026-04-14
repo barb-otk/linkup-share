@@ -52,7 +52,7 @@ export default function JoinButton({ eventId, device }: Props) {
   const buttonEl = (
     <button
       onClick={handleJoin}
-      className="w-full rounded-full text-white text-[16px] font-semibold py-4 text-center cursor-pointer"
+      className="w-full rounded-full text-white text-[16px] font-semibold h-[41px] text-center cursor-pointer"
       style={{
         background: "linear-gradient(135deg, #8325FF 0%, #6B40FF 50%, #4993FF 100%)",
         border: "1px solid rgba(255,255,255,0.15)",

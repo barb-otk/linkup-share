@@ -7,7 +7,7 @@ interface Props {
 export default function LinkupAttendees({ event }: Props) {
   const { attendees, ownerId, ownerName } = event;
 
-  const host = { userId: ownerId, id: ownerId, name: ownerName, picture: event.ownerPictureUrl, verified: false };
+  const host = { userId: ownerId, id: ownerId, name: ownerName, userName: event.ownerUsername, picture: event.ownerPictureUrl, verified: false };
   const hostAlreadyInList = attendees.some((a) => (a.userId ?? a.id) === ownerId);
   const allAttendees = hostAlreadyInList ? attendees : [...attendees, host];
   const total = allAttendees.length;
@@ -19,7 +19,7 @@ export default function LinkupAttendees({ event }: Props) {
         <img src="/icons/icon-friends.svg" alt="" className="w-[22px] h-[22px] shrink-0" />
         <span className="text-white text-[14px] font-medium">
           Attendees{" "}
-          <span className="text-white/50">({total})</span>
+          <span className="text-white/50 font-normal">({total})</span>
         </span>
       </div>
 
@@ -67,6 +67,10 @@ export default function LinkupAttendees({ event }: Props) {
 
               <span className="text-white text-[12px] font-medium text-center leading-4 line-clamp-1 w-full">
                 {attendee.name?.split(" ")[0] ?? "?"}
+              </span>
+
+              <span className="text-white/50 font-normal text-[9px] leading-[16px] tracking-[0.03em] text-center line-clamp-1 w-full">
+                {attendee.userName ?? attendee.name?.toLowerCase().replace(/\s+/g, "") ?? ""}
               </span>
             </div>
           );
