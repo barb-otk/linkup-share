@@ -6,6 +6,7 @@ import { fetchLinkupEvent } from "@/lib/api";
 import { detectDevice, isMobile } from "@/lib/device";
 import { getLinkupDeepLink } from "@/lib/deeplink";
 import { extractProfileColor } from "@/lib/extractColor";
+import { formatEventDate } from "@/lib/datetime";
 import LinkupPageMobile from "@/components/linkup/LinkupPageMobile";
 import LinkupPageDesktop from "@/components/linkup/LinkupPageDesktop";
 
@@ -20,12 +21,21 @@ export async function generateMetadata({
   const { data: event } = await fetchLinkupEvent(id);
   if (!event) return { title: "Linkup" };
 
+  const { mainLine } = formatEventDate(
+    event.startTime,
+    event.endTime,
+    event.timeZoneId,
+    event.timeZoneName
+  );
+  const location = event.googlePlace?.displayName?.text ?? event.city ?? "";
+  const ogDescription = `${mainLine} · ${location}`;
+
   return {
     title: event.title,
-    description: event.description,
+    description: ogDescription,
     openGraph: {
       title: `Check out '${event.title}' on Linkup`,
-      description: event.description,
+      description: ogDescription,
       images: event.picture ? [{ url: event.picture }] : [],
     },
   };
@@ -47,7 +57,7 @@ export default async function LinkupPage({
     extractProfileColor(event.picture ?? ""),
   ]);
 
-  console.log("eventColor:", eventColor); // aqui dentro
+  console.log("eventColor:", eventColor);
 
   const ua = headersList.get("user-agent") ?? "";
   const device = detectDevice(ua);

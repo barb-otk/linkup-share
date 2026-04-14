@@ -1,12 +1,12 @@
 import { APP_STORE_URL, PLAY_STORE_URL } from "@/lib/deeplink";
 
 const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Terms", href: "/terms" },
-  { label: "Privacy", href: "/privacy" },
-  { label: "Cookie", href: "/cookie" },
-  { label: "Contact", href: "/contact" },
-  { label: "Help Center", href: "/help" },
+  { label: "Home", href: "https://www.linkupapp.io/" },
+  { label: "Terms", href: "https://www.linkupapp.io/terms-of-use" },
+  { label: "Privacy", href: "https://www.linkupapp.io/privacy-policy" },
+  { label: "Cookie", href: "https://www.linkupapp.io/cookie-policy" },
+  { label: "Contact", href: "https://www.linkupapp.io/contact" },
+  { label: "Help Center", href: "https://www.linkupapp.io/help-center" },
 ];
 
 interface Props {
@@ -21,6 +21,8 @@ export default function Footer({ mobile = false }: Props) {
           <a
             key={link.href}
             href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-white/50 text-[13px] hover:text-white/80 transition-colors"
           >
             {link.label}
