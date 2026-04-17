@@ -12,9 +12,10 @@ interface Props {
   readonly device: DeviceType;
   readonly linkups: PublicUserLinkup[];
   readonly profileColor: [number, number, number];
+  readonly isSelf?: boolean;
 }
 
-export default function ProfilePageDesktop({ profile, device, linkups, profileColor }: Props) {
+export default function ProfilePageDesktop({ profile, device, linkups, profileColor, isSelf }: Props) {
   const age = !profile.hideAge && profile.dateOfBirth ? calcAge(profile.dateOfBirth) : null;
   const flagUrl = profile.nationality?.alpha2Code
     ? `https://flagcdn.com/w20/${profile.nationality.alpha2Code.toLowerCase()}.png`
@@ -106,7 +107,7 @@ export default function ProfilePageDesktop({ profile, device, linkups, profileCo
                   )}
                 </div>
 
-                <AddFriendButton profileUsername={profile.userName} firstName={profile.firstName} device={device} />
+                <AddFriendButton profileUsername={profile.userName} firstName={profile.firstName} device={device} isSelf={isSelf} />
               </div>
             </div>
           </div>

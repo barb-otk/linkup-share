@@ -16,9 +16,10 @@ interface Props {
   device: DeviceType;
   linkups: PublicUserLinkup[];
   profileColor: [number, number, number];
+  isSelf?: boolean;
 }
 
-export default function ProfilePageMobile({ profile, device, linkups, profileColor }: Readonly<Props>) {
+export default function ProfilePageMobile({ profile, device, linkups, profileColor, isSelf }: Readonly<Props>) {
   const anchorRef = useRef<HTMLDivElement>(null);
   const [isFixed, setIsFixed] = useState(true);
   const age = !profile.hideAge && profile.dateOfBirth ? calcAge(profile.dateOfBirth) : null;
@@ -104,7 +105,7 @@ export default function ProfilePageMobile({ profile, device, linkups, profileCol
           background: `linear-gradient(to top, rgb(${r},${g},${b}) 0%, transparent 100%)`,
         }}
       >
-        <AddFriendButton profileUsername={profile.userName} firstName={profile.firstName} device={device} />
+        <AddFriendButton profileUsername={profile.userName} firstName={profile.firstName} device={device} isSelf={isSelf} />
       </div>
     </DynamicBackground>
   );

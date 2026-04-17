@@ -46,11 +46,14 @@ export async function generateMetadata({
 
 export default async function ProfilePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ self?: string }>;
 }) {
   const { id } = await params;
+  const { self } = await searchParams;
+  const isSelf = self === "true";
   const { data: profile, error } = await fetchUserProfile(id);
   if (!profile || error) notFound();
 
@@ -73,6 +76,7 @@ export default async function ProfilePage({
         device={device}
         linkups={linkups ?? []}
         profileColor={profileColor}
+        isSelf={isSelf}
       />
     );
   }
@@ -83,6 +87,7 @@ export default async function ProfilePage({
       device={device}
       linkups={linkups ?? []}
       profileColor={profileColor}
+      isSelf={isSelf}
     />
   );
 }

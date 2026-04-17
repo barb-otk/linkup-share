@@ -8,13 +8,14 @@ interface Props {
   readonly profileUsername: string;
   readonly firstName?: string;
   readonly device: DeviceType;
+  readonly isSelf?: boolean;
 }
 
-export default function AddFriendButton({ profileUsername, firstName, device }: Props) {
+export default function AddFriendButton({ profileUsername, firstName, device, isSelf }: Props) {
   const [showModal, setShowModal] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const isDesktop = device === "desktop";
-  const deepLink = getProfileDeepLink(profileUsername);
+  const deepLink = getProfileDeepLink(profileUsername, isSelf);
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=201x201&data=${encodeURIComponent(deepLink)}`;
 
   function openModal() {
