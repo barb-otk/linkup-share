@@ -61,28 +61,30 @@ export default function ProfilePageMobile({ profile, device, linkups, profileCol
             style={{ background: `linear-gradient(180deg, rgba(${r},${g},${b},0) 36%, rgb(${r},${g},${b}) 75%)` }}
           />
 
-          <div className="absolute bottom-0 left-0 right-0 px-5 pb-5 flex flex-col gap-[7px] items-center">
+          {/* Overlaid content */}
+          <div className="absolute bottom-0 left-0 right-0 px-5 pb-[26px] flex flex-col gap-4 items-center">
             <h1 className="text-center text-white text-[28px] font-buckin-black tracking-[-0.4px] leading-[25px]">
               {profile.name}
               {age !== null && <span>, {age}</span>}
             </h1>
+            <div className="flex flex-col gap-2">
+              {profile.nationality?.name && (
+                <div className="flex items-center gap-1.5">
+                  <GlobeIcon />
+                  <span className="text-white/75 text-[12px] font-normal leading-[23px] tracking-[0.36px]">
+                    {profile.nationality.name}
+                    {flagUrl && <img src={flagUrl} alt="" className="inline w-5 h-auto ml-1 align-middle" />}
+                  </span>
+                </div>
+              )}
 
-            {profile.nationality?.name && (
-              <div className="flex items-center gap-1.5">
-                <GlobeIcon />
-                <span className="text-white/75 text-[12px] font-normal leading-[23px] tracking-[0.36px]">
-                  {profile.nationality.name}
-                  {flagUrl && <img src={flagUrl} alt="" className="inline w-5 h-auto ml-1 align-middle" />}
-                </span>
-              </div>
-            )}
-
-            {profile.occupation && (
-              <div className="flex items-center gap-1.5">
-                <BriefcaseIcon />
-                <span className="text-white/75 text-[12px] font-normal leading-[23px] tracking-[0.36px]">{profile.occupation}</span>
-              </div>
-            )}
+              {profile.occupation && (
+                <div className="flex items-center gap-1.5">
+                  <BriefcaseIcon />
+                  <span className="text-white/75 text-[12px] font-normal leading-[23px] tracking-[0.36px]">{profile.occupation}</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

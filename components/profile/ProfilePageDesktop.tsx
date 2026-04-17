@@ -27,32 +27,34 @@ export default function ProfilePageDesktop({ profile, device, linkups, profileCo
         <div className="flex gap-[55px] items-start">
 
           {/* ── Left column ───────────────────────────────────── */}
-          <div className="flex flex-col gap-3 w-[324px] shrink-0">
+          <div className="flex flex-col gap-4 w-[324px] shrink-0">
 
             {/* Name, age, location, occupation */}
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-[15px]
+            ">
               <h1 className="font-buckin-black text-white text-[33px] tracking-[-0.495px] leading-[32px]" style={{ fontFeatureSettings: "'case' on, 'liga' off, 'clig' off" }}>
                 {profile.name}
                 {age !== null && <span>, {age}</span>}
               </h1>
 
+              <div className="flex flex-col gap-2">
+                {profile.nationality?.name && (
+                  <div className="flex items-center gap-2">
+                    <GlobeIcon />
+                    <span className="text-white/75 text-[12px] font-normal leading-[23px] tracking-[0.36px]">
+                      {profile.nationality.name}
+                      {flagUrl && <img src={flagUrl} alt="" className="inline w-5 h-auto ml-1 align-middle" />}
+                    </span>
+                  </div>
+                )}
 
-              {profile.nationality?.name && (
-                <div className="flex items-center gap-2">
-                  <GlobeIcon />
-                  <span className="text-white/75 text-[12px] font-normal leading-[23px] tracking-[0.36px]">
-                    {profile.nationality.name}
-                    {flagUrl && <img src={flagUrl} alt="" className="inline w-5 h-auto ml-1 align-middle" />}
-                  </span>
-                </div>
-              )}
-
-              {profile.occupation && (
-                <div className="flex items-center gap-2">
-                  <BriefcaseIcon />
-                  <span className="text-white/75 text-[12px] font-normal leading-[23px] tracking-[0.36px]">{profile.occupation}</span>
-                </div>
-              )}
+                {profile.occupation && (
+                  <div className="flex items-center gap-2">
+                    <BriefcaseIcon />
+                    <span className="text-white/75 text-[12px] font-normal leading-[23px] tracking-[0.36px]">{profile.occupation}</span>
+                  </div>
+                )}
+              </div>
             </div>
 
             {profile.bio && <ProfileAbout bio={profile.bio} />}
@@ -81,27 +83,28 @@ export default function ProfilePageDesktop({ profile, device, linkups, profileCo
               <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, rgba(${r},${g},${b},0) 36%, rgb(${r},${g},${b}) 75%)` }} />
 
               {/* Overlaid content */}
-              <div className="absolute bottom-0 left-0 right-0 px-5 pb-5 flex flex-col gap-[7px] items-center">
+              <div className="absolute bottom-0 left-0 right-0 px-5 pb-[40px] flex flex-col gap-4 items-center">
                 <h2 className="text-center text-white text-[27px] font-buckin-black tracking-[-0.405px]" style={{ fontFeatureSettings: "'case' 1" }}>
                   {profile.firstName || profile.name}
                 </h2>
+                <div className="flex flex-col gap-2">
+                  {profile.nationality?.name && (
+                    <div className="flex items-center justify-center gap-2">
+                      <GlobeIcon />
+                      <span className="text-white/75 text-[12px] font-normal leading-[23px] tracking-[0.36px]">
+                        {profile.nationality.name}
+                        {flagUrl && <img src={flagUrl} alt="" className="inline w-5 h-auto ml-1 align-middle" />}
+                      </span>
+                    </div>
+                  )}
 
-                {profile.nationality?.name && (
-                  <div className="flex items-center justify-center gap-2">
-                    <GlobeIcon />
-                    <span className="text-white/75 text-[12px] font-normal leading-[23px] tracking-[0.36px]">
-                      {profile.nationality.name}
-                      {flagUrl && <img src={flagUrl} alt="" className="inline w-5 h-auto ml-1 align-middle" />}
-                    </span>
-                  </div>
-                )}
-
-                {profile.occupation && (
-                  <div className="flex items-center justify-center gap-2">
-                    <BriefcaseIcon />
-                    <span className="text-white/75 text-[12px] font-normal leading-[23px] tracking-[0.36px]">{profile.occupation}</span>
-                  </div>
-                )}
+                  {profile.occupation && (
+                    <div className="flex items-center justify-center gap-2">
+                      <BriefcaseIcon />
+                      <span className="text-white/75 text-[12px] font-normal leading-[23px] tracking-[0.36px]">{profile.occupation}</span>
+                    </div>
+                  )}
+                </div>
 
                 <AddFriendButton profileUsername={profile.userName} firstName={profile.firstName} device={device} />
               </div>
