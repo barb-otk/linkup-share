@@ -34,7 +34,7 @@ export default function LinkupHero({ event, device, eventColor }: Props) {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[36%] to-black/80 to-[100%]" />
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-3 pb-5 px-4">
+      <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-4 p-8">
         <AttendeeAvatarStack
           attendees={avatars}
           totalCount={totalCount}

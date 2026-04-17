@@ -62,7 +62,7 @@ export default function ProfilePageMobile({ profile, device, linkups, profileCol
           />
 
           {/* Overlaid content */}
-          <div className="absolute bottom-0 left-0 right-0 px-5 pb-[26px] flex flex-col gap-4 items-center">
+          <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col gap-4 items-center">
             <h1 className="text-center text-white text-[28px] font-buckin-black tracking-[-0.4px] leading-[25px]">
               {profile.name}
               {age !== null && <span>, {age}</span>}
