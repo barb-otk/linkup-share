@@ -42,10 +42,6 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://linkupapp.io"),
   title: "Linkup",
   description: "Linkup is the app to meet new people through shared real life experiences happening near you.",
-  icons: {
-    icon: "/linkup-logo.svg",
-    shortcut: "/linkup-logo.svg",
-  },
 };
 
 export default function RootLayout({
