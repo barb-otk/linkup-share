@@ -28,8 +28,7 @@ export async function generateMetadata({
     : `Check out ${profile.firstName || profile.name} on Linkup`;
 
   const description = "Linkup is the app to meet new people through shared real life experiences happening near you.";
-  const photoUrl = profile.profilePhotoThumbnailUrl ?? profile.profilePhoto ?? "";
-  const ogImage = `/og/profile?photo=${encodeURIComponent(photoUrl)}`;
+  const photoUrl = profile.profilePhotoThumbnailUrl ?? profile.profilePhoto;
 
   return {
     title,
@@ -37,7 +36,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      images: [{ url: ogImage }],
+      images: photoUrl ? [{ url: photoUrl }] : [],
     },
   };
 }
