@@ -28,7 +28,10 @@ export async function generateMetadata({
     : `Check out ${profile.firstName || profile.name} on Linkup`;
 
   const description = "Linkup is the app to meet new people through shared real life experiences happening near you.";
-  const photoUrl = profile.profilePhotoThumbnailUrl ?? profile.profilePhoto;
+  const photoUrl = profile.profilePhotoThumbnailUrl ?? profile.profilePhoto ?? "";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
+    ?? (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://linkupapp.io");
+  const ogImage = `${baseUrl}/og/profile?photo=${encodeURIComponent(photoUrl)}`;
 
   return {
     title,
@@ -36,7 +39,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      images: photoUrl ? [{ url: photoUrl }] : [],
+      images: [{ url: ogImage }],
     },
   };
 }
