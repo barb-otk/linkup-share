@@ -47,7 +47,7 @@ export async function generateMetadata({
     openGraph: {
       title: `Check out \u201C${event.title}\u201D on Linkup`,
       description: ogDescription,
-      images: event.picture ? [{ url: `/og/linkup?photo=${encodeURIComponent(event.picture)}` }] : [],
+      images: event.picture ? [{ url: event.picture }] : [],
     },
   };
 }
