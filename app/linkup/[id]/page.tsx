@@ -4,11 +4,29 @@ import type { Metadata } from "next";
 
 import { fetchLinkupEvent } from "@/lib/api";
 import { detectDevice, isMobile } from "@/lib/device";
-import { getLinkupDeepLink } from "@/lib/deeplink";
 import { extractProfileColor } from "@/lib/extractColor";
-import { formatEventDate } from "@/lib/datetime";
 import LinkupPageMobile from "@/components/linkup/LinkupPageMobile";
 import LinkupPageDesktop from "@/components/linkup/LinkupPageDesktop";
+
+function formatOgDate(startTime: string, timeZoneId: string): string {
+  const start = new Date(startTime);
+  const now = new Date();
+  const fmt = (d: Date, opts: Intl.DateTimeFormatOptions) =>
+    new Intl.DateTimeFormat("en-GB", { timeZone: timeZoneId, ...opts }).format(d);
+  const dateOpts: Intl.DateTimeFormatOptions = { day: "numeric", month: "short" };
+  const isToday = fmt(start, dateOpts) === fmt(now, dateOpts);
+  const tomorrow = new Date(now);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const isTomorrow = fmt(start, dateOpts) === fmt(tomorrow, dateOpts);
+  const diffMs = start.getTime() - now.getTime();
+  const isThisWeek = diffMs > 0 && diffMs < 6 * 24 * 60 * 60 * 1000;
+  const dayLabel = isToday ? "Today"
+    : isTomorrow ? "Tomorrow"
+    : isThisWeek ? fmt(start, { weekday: "long" })
+    : fmt(start, dateOpts);
+  const timeStr = fmt(start, { hour: "2-digit", minute: "2-digit" });
+  return `${dayLabel} at ${timeStr}`;
+}
 
 // ─── Open Graph metadata ──────────────────────────────────────────────────────
 
@@ -21,20 +39,13 @@ export async function generateMetadata({
   const { data: event } = await fetchLinkupEvent(id);
   if (!event) return { title: "Linkup" };
 
-  const { mainLine } = formatEventDate(
-    event.startTime,
-    event.endTime,
-    event.timeZoneId,
-    event.timeZoneName
-  );
-  const location = event.googlePlace?.displayName?.text ?? event.city ?? "";
-  const ogDescription = `${mainLine} · ${location}`;
+  const ogDescription = formatOgDate(event.startTime, event.timeZoneId);
 
   return {
     title: event.title,
     description: ogDescription,
     openGraph: {
-      title: `Check out '${event.title}' on Linkup`,
+      title: `Check out \u201C${event.title}\u201D on Linkup`,
       description: ogDescription,
       images: event.picture ? [{ url: event.picture }] : [],
     },

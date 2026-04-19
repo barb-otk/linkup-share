@@ -54,7 +54,7 @@ export default function JoinButton({ eventId, device, eventColor }: Props) {
   const buttonEl = (
     <button
       onClick={handleJoin}
-      className="w-full rounded-full text-white text-[16px] font-semibold h-[41px] text-center cursor-pointer"
+      className="w-full rounded-full text-white text-[18px] font-buckin-black h-[45px] text-center cursor-pointer"
       style={{
         background: "linear-gradient(135deg, #8325FF 0%, #6B40FF 50%, #4993FF 100%)",
         border: "1px solid rgba(255,255,255,0.15)",
@@ -113,7 +113,7 @@ export default function JoinButton({ eventId, device, eventColor }: Props) {
     <>
       <div ref={anchorRef} className="h-px w-full mt-3" />
       <div
-        className="fixed bottom-0 left-0 right-0 z-50 px-4 pb-4 pt-6 flex justify-center"
+        className="fixed bottom-0 left-0 right-0 z-50 pt-6 pb-8 flex justify-center"
         style={{
           opacity: isFixed ? 1 : 0,
           pointerEvents: isFixed ? "auto" : "none",
@@ -121,7 +121,7 @@ export default function JoinButton({ eventId, device, eventColor }: Props) {
           background: `linear-gradient(to top, rgb(${r},${g},${b}) 0%, transparent 100%)`,
         }}
       >
-        <div className="w-[65%]">{buttonEl}</div>
+        <div className="w-[183px]">{buttonEl}</div>
       </div>
       {modal}
     </>
