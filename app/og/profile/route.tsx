@@ -2,9 +2,24 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
+async function fetchImageAsDataUrl(url: string): Promise<string | null> {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const buffer = await res.arrayBuffer();
+    const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+    const contentType = res.headers.get("content-type") ?? "image/jpeg";
+    return `data:${contentType};base64,${base64}`;
+  } catch {
+    return null;
+  }
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const photoUrl = searchParams.get("photo") ?? "";
+
+  const photoData = photoUrl ? await fetchImageAsDataUrl(photoUrl) : null;
 
   return new ImageResponse(
     (
@@ -19,9 +34,9 @@ export async function GET(request: Request) {
           padding: "60px 80px",
         }}
       >
-        {photoUrl ? (
+        {photoData ? (
           <img
-            src={photoUrl}
+            src={photoData}
             style={{ width: 420, height: 420, borderRadius: 32, objectFit: "cover" }}
           />
         ) : (
