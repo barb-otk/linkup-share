@@ -27,15 +27,15 @@ export async function GET(request: Request) {
           <img
             src={photoUrl}
             style={{
-              width: 263,
-              height: 263,
+              width: 380,
+              height: 380,
               borderRadius: 64,
               objectFit: "cover",
-              transform: "rotate(4.17deg)",
+              transform: "rotate(-4.17deg)",
             }}
           />
         ) : (
-          <div style={{ width: 263, height: 263, borderRadius: 64, backgroundColor: "#1a1a2e", display: "flex" }} />
+          <div style={{ width: 380, height: 380, borderRadius: 64, backgroundColor: "#1a1a2e", display: "flex" }} />
         )}
 
         <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 20 }}>
@@ -52,7 +52,7 @@ export async function GET(request: Request) {
           </svg>
           <span style={{
             color: "white",
-            fontSize: 53,
+            fontSize: 72,
             fontWeight: 900,
             fontFamily: "Buckin",
             lineHeight: "45px",
