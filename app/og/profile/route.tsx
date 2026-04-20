@@ -2,25 +2,9 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-async function toDataUrl(url: string): Promise<string | null> {
-  try {
-    const res = await fetch(url);
-    if (!res.ok) return null;
-    const buffer = await res.arrayBuffer();
-    const bytes = new Uint8Array(buffer);
-    let binary = "";
-    for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
-    const contentType = res.headers.get("content-type") ?? "image/jpeg";
-    return `data:${contentType};base64,${btoa(binary)}`;
-  } catch {
-    return null;
-  }
-}
-
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const photoUrl = searchParams.get("photo") ?? "";
-  const photoData = photoUrl ? await toDataUrl(photoUrl) : null;
 
   return new ImageResponse(
     (
@@ -35,17 +19,15 @@ export async function GET(request: Request) {
           padding: "0 100px",
         }}
       >
-        {/* Profile photo */}
-        {photoData ? (
+        {photoUrl ? (
           <img
-            src={photoData}
+            src={photoUrl}
             style={{ width: 360, height: 460, borderRadius: 36, objectFit: "cover" }}
           />
         ) : (
           <div style={{ width: 360, height: 460, borderRadius: 36, backgroundColor: "#1a1a2e", display: "flex" }} />
         )}
 
-        {/* Linkup brand */}
         <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 20 }}>
           <svg width="90" height="90" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
