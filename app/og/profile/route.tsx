@@ -2,14 +2,16 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-async function fetchImageAsDataUrl(url: string): Promise<string | null> {
+async function toDataUrl(url: string): Promise<string | null> {
   try {
     const res = await fetch(url);
     if (!res.ok) return null;
     const buffer = await res.arrayBuffer();
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+    const bytes = new Uint8Array(buffer);
+    let binary = "";
+    for (let i = 0; i < bytes.byteLength; i++) binary += String.fromCharCode(bytes[i]);
     const contentType = res.headers.get("content-type") ?? "image/jpeg";
-    return `data:${contentType};base64,${base64}`;
+    return `data:${contentType};base64,${btoa(binary)}`;
   } catch {
     return null;
   }
@@ -18,8 +20,7 @@ async function fetchImageAsDataUrl(url: string): Promise<string | null> {
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const photoUrl = searchParams.get("photo") ?? "";
-
-  const photoData = photoUrl ? await fetchImageAsDataUrl(photoUrl) : null;
+  const photoData = photoUrl ? await toDataUrl(photoUrl) : null;
 
   return new ImageResponse(
     (
@@ -28,23 +29,25 @@ export async function GET(request: Request) {
           display: "flex",
           width: "100%",
           height: "100%",
-          backgroundColor: "#070717",
+          backgroundImage: "linear-gradient(71.91deg, #000000 24.5%, #030934 96.93%)",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "60px 80px",
+          padding: "0 100px",
         }}
       >
+        {/* Profile photo */}
         {photoData ? (
           <img
             src={photoData}
-            style={{ width: 420, height: 420, borderRadius: 32, objectFit: "cover" }}
+            style={{ width: 360, height: 460, borderRadius: 36, objectFit: "cover" }}
           />
         ) : (
-          <div style={{ width: 420, height: 420, borderRadius: 32, backgroundColor: "#1a1a2e", display: "flex" }} />
+          <div style={{ width: 360, height: 460, borderRadius: 36, backgroundColor: "#1a1a2e", display: "flex" }} />
         )}
 
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 24 }}>
-          <svg width="120" height="120" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+        {/* Linkup brand */}
+        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 20 }}>
+          <svg width="90" height="90" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="grad" x1="4.31776" y1="6.90909" x2="30.6587" y2="34.5455" gradientUnits="userSpaceOnUse">
                 <stop stopColor="#8325FF" />
@@ -55,7 +58,7 @@ export async function GET(request: Request) {
             <rect width="38" height="38" rx="10" fill="url(#grad)" />
             <path d="M28.5675 25.8572C26.3624 28.4745 22.2318 28.8222 19.665 26.1872L20.9313 24.6847C22.57 26.536 25.4662 26.5097 27.07 24.606C28.3683 23.0655 28.3687 20.827 27.07 19.286L25.8138 17.796C26.055 16.8547 26.0975 15.8747 25.9425 14.9197L28.5675 18.0347C30.4775 20.3009 30.4775 23.591 28.5675 25.8572ZM23.6012 12.1422C21.1962 9.28844 16.8075 9.28343 14.3987 12.1422C12.9691 13.8376 12.0652 17.1949 14.3987 19.9635L17.0713 23.1347L18.3462 21.621L15.8962 18.7134C14.5955 17.1714 14.5988 14.9342 15.8962 13.3934C17.4729 11.5217 20.3291 11.4454 21.9993 13.2733C23.1192 14.4989 23.6913 16.8304 22.1037 18.7134C21.995 18.8424 17.1007 24.6499 17.0687 24.6847C15.3977 26.5069 12.5337 26.5097 10.93 24.606C9.63125 23.0647 9.63125 20.8272 10.93 19.286L12.1862 17.7959C11.945 16.8547 11.9025 15.8747 12.0575 14.9197L9.4325 18.0347C7.5225 20.3009 7.5225 23.5909 9.4325 25.8572C11.7412 28.596 15.8775 28.711 18.335 26.1872C18.5299 25.99 18.114 26.4741 23.6012 19.9634C25.8874 17.2509 25.0806 13.8965 23.6012 12.1422Z" fill="white" />
           </svg>
-          <span style={{ color: "white", fontSize: 52, fontWeight: 600, letterSpacing: -1 }}>linkup</span>
+          <span style={{ color: "white", fontSize: 72, fontWeight: 600, letterSpacing: -2 }}>linkup</span>
         </div>
       </div>
     ),
