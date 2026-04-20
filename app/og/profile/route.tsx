@@ -10,25 +10,41 @@ export async function GET(request: Request) {
     (
       <div
         style={{
+          position: "relative",
           display: "flex",
           width: "100%",
           height: "100%",
           backgroundImage: "linear-gradient(71.91deg, #000000 24.5%, #030934 96.93%)",
-          alignItems: "center",
-          justifyContent: "space-around",
-          padding: "0 100px",
         }}
       >
-        {photoUrl ? (
+        {photoUrl && (
           <img
             src={photoUrl}
-            style={{ width: 360, height: 460, borderRadius: 36, objectFit: "cover" }}
+            style={{
+              position: "absolute",
+              width: 263,
+              height: 263,
+              top: 60,
+              left: 69,
+              borderRadius: 64,
+              objectFit: "cover",
+              transform: "rotate(4.17deg)",
+            }}
           />
-        ) : (
-          <div style={{ width: 360, height: 460, borderRadius: 36, backgroundColor: "#1a1a2e", display: "flex" }} />
         )}
 
-        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 20 }}>
+        <div
+          style={{
+            position: "absolute",
+            right: 100,
+            top: 0,
+            bottom: 0,
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 20,
+          }}
+        >
           <svg width="90" height="90" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="grad" x1="4.31776" y1="6.90909" x2="30.6587" y2="34.5455" gradientUnits="userSpaceOnUse">
