@@ -23,28 +23,29 @@ export default function LinkupPageDesktop({ event, device, eventColor }: Props) 
 
           {/* Left column */}
           <div className="flex flex-col flex-1">
-              {/* Host */}
-              <div className="flex items-center gap-2 mb-[16px]">
+            {/* Host */}
+            <div className="flex items-center gap-2 mb-[16px]">
+              <div className="relative w-[25px] h-[25px] rounded-full overflow-hidden shrink-0 bg-white/20 flex items-center justify-center text-white text-[10px] font-semibold">
+                {event.ownerPictureUrl ? (
+                  <img src={event.ownerPictureUrl} alt={event.ownerName} className="w-full h-full object-cover" />
+                ) : (
+                  event.ownerName?.[0]
+                )}
                 <div
-                  className="w-[25px] h-[25px] rounded-full overflow-hidden shrink-0 bg-white/20 flex items-center justify-center text-white text-[10px] font-semibold"
-                  style={{ border: "1.5px solid #FFFFFF" }}
-                >
-                  {event.ownerPictureUrl ? (
-                    <img src={event.ownerPictureUrl} alt={event.ownerName} className="w-full h-full object-cover" />
-                  ) : (
-                    event.ownerName?.[0]
-                  )}
-                </div>
-                <span className="text-white/50 text-[13px]">
-                  Hosted by{" "}
-                  <span className="text-white font-semibold">{event.ownerName}</span>
-                </span>
+                  className="absolute inset-0 rounded-full pointer-events-none"
+                  style={{ boxShadow: "inset 0 0 0 1px #FFFFFF0D" }}
+                />
               </div>
+              <span className="text-white/50 text-[13px]">
+                Hosted by{" "}
+                <span className="text-white font-semibold">{event.ownerName}</span>
+              </span>
+            </div>
 
-              {/* Title */}
-              <h1 className="text-white text-[32px] font-buckin-black font-black tracking-[-0.48px] leading-tight mb-[29px]">
-                {event.title}
-              </h1>
+            {/* Title */}
+            <h1 className="text-white text-[32px] font-buckin-black font-black tracking-[-0.48px] leading-tight mb-[29px]">
+              {event.title}
+            </h1>
 
             <div className="flex flex-col gap-[13px]">
               <LinkupInfoRow event={event} />
@@ -52,7 +53,7 @@ export default function LinkupPageDesktop({ event, device, eventColor }: Props) 
               <LinkupMap event={event} />
               <LinkupAttendees event={event} />
             </div>
-            
+
           </div>
 
           {/* Right column — Hero card */}

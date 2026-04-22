@@ -1,4 +1,4 @@
-import { UserProfile } from "@/types";
+import { UserProfile, countryCodeToFlag } from "@/types";
 
 interface Props {
   profile: UserProfile;
@@ -38,15 +38,15 @@ export default function ProfileTags({ profile }: Props) {
           </span>
           <div className="flex flex-wrap gap-[9px]">
             {languages.map(({ language }) => {
-              const flagUrl = language.countryCode
-                ? `https://flagcdn.com/w20/${language.countryCode.toLowerCase()}.png`
+              const flag = language.countryCode
+                ? countryCodeToFlag(language.countryCode)
                 : null;
               return (
                 <span
                   key={language.id}
                   className="flex items-center gap-1.5 px-[16px] py-[4px] rounded-[24px] bg-white/[0.10] border-[0.5px] border-white/15 backdrop-blur-[8px] text-white text-[12px] font-light tracking-[0.36px] leading-[20px]"
                 >
-                  {flagUrl && <img src={flagUrl} alt="" className="w-4 h-auto shrink-0" />}
+                  {flag && <span>{flag}</span>}
                   <span>{language.name}</span>
                 </span>
               );

@@ -37,6 +37,14 @@ export default function LinkupDescription({ description }: Props) {
             See more
           </button>
         )}
+        {isLong && expanded && (
+          <>{" "}<button
+            onClick={() => setExpanded(false)}
+            className="text-white font-semibold inline cursor-pointer"
+          >
+            See less
+          </button></>
+        )}
       </p>
     </div>
   );

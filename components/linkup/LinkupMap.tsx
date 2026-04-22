@@ -11,10 +11,8 @@ export default function LinkupMap({ event }: Props) {
   const longitude = event.aproxLongitude;
 
   const mapUrl = token
-  ? event.isFree
-    ? `https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/pin-s+315aff(${longitude},${latitude})/${longitude},${latitude},14,0/600x270@2x?access_token=${token}`
-    : `https://api.mapbox.com/styles/v1/mapbox/dark-v11/static/${longitude},${latitude},11,0/600x270@2x?access_token=${token}`
-  : null;
+    ? `https://api.mapbox.com/styles/v1/linkupapp/cmo8zwa4y001e01s5hrmwavpj/static/pin-s+315aff(${longitude},${latitude})/${longitude},${latitude},11,0/600x270@2x?access_token=${token}`
+    : null;
 
   return (
     <div className="rounded-[26px] border border-white/15 bg-white/[0.07] backdrop-blur-[31.8px] px-5 py-4">
@@ -24,11 +22,9 @@ export default function LinkupMap({ event }: Props) {
         <span className="text-white text-[14px] font-medium">{locationName}</span>
       </div>
 
-      {!event.isFree && (
-        <p className="text-white/50 text-[12px] leading-5 mb-3 pl-[26px]">
-          Exact location available after joining
-        </p>
-      )}
+      <p className="text-white/50 text-[12px] leading-5 mb-3">
+        Exact location available after joining
+      </p>
 
       <div className="rounded-xl overflow-hidden w-full aspect-[300/135]">
         {mapUrl ? (

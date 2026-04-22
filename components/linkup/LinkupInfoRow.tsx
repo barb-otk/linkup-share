@@ -27,13 +27,7 @@ export default function LinkupInfoRow({ event }: Props) {
 
   const locationName = event.googlePlace?.displayName?.text ?? event.city;
 
-  const countryName = event.country
-    ? new Intl.DisplayNames(["en"], { type: "region" }).of(event.country) ?? event.country
-    : null;
-
-  const locationSub = event.isFree
-    ? countryName
-    : "Exact location available after joining";
+  const locationSub = "Exact location available after joining";
 
   const total = allAttendees.length;
   const attendeeCountLabel = total === 1 ? "1 attendee" : `${total} attendees`;

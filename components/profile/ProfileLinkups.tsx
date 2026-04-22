@@ -3,9 +3,10 @@ import { PublicUserLinkup, PublicUserLinkupParticipant } from "@/types";
 interface Props {
   readonly linkups: PublicUserLinkup[];
   readonly ownerName: string;
+  readonly profileId: string;
 }
 
-export default function ProfileLinkups({ linkups, ownerName }: Props) {
+export default function ProfileLinkups({ linkups, ownerName, profileId }: Props) {
   if (!linkups || linkups.length === 0) return null;
 
   return (
@@ -17,26 +18,26 @@ export default function ProfileLinkups({ linkups, ownerName }: Props) {
 
       <div className="flex flex-col gap-4">
         {linkups.map((linkup) => (
-          <LinkupCard key={linkup.id} linkup={linkup} ownerName={ownerName} />
+          <LinkupCard key={linkup.id} linkup={linkup} ownerName={ownerName} profileId={profileId} />
         ))}
       </div>
     </div>
   );
 }
 
-function LinkupCard({ linkup, ownerName }: { readonly linkup: PublicUserLinkup; readonly ownerName: string }) {
+function LinkupCard({ linkup, ownerName, profileId }: { readonly linkup: PublicUserLinkup; readonly ownerName: string; readonly profileId: string }) {
   const date = formatLinkupDate(linkup.startTime);
   const location = extractCity(linkup.sortAddress);
   const avatars = linkup.firstParticipants.slice(0, 4);
   const totalCount = linkup.participantsCount;
-  const ownerParticipant = linkup.firstParticipants.find((p) => p.id === linkup.ownerId);
-  const hostName = ownerParticipant?.name?.split(" ")[0] ?? null;
+  const isProfileHost = linkup.ownerId === profileId;
+  const hostName = isProfileHost ? ownerName.split(" ")[0] : null;
 
   return (
-    <a href={`/linkup/${linkup.id}`} className="relative flex items-center gap-4 rounded-[22px] border-[0.5px] border-[#949494] bg-white/[0.07] pl-[14px] py-[14px] cursor-pointer">
+    <a href={`/linkup/${linkup.id}`} className="relative flex items-center gap-4 rounded-[34px] border border-white/15 bg-white/5 pl-[14px] py-[14px] cursor-pointer">
 
       {/* Thumbnail */}
-      <div className="relative w-[108px] h-[108px] shrink-0 rounded-[17px] overflow-hidden">
+      <div className="relative w-[108px] h-[108px] shrink-0 rounded-[21px] overflow-hidden">
         <img
           src={linkup.pictureThumbnailUrl || linkup.picture}
           alt={linkup.title}
@@ -44,11 +45,11 @@ function LinkupCard({ linkup, ownerName }: { readonly linkup: PublicUserLinkup; 
         />
         {/* Crown chip */}
         {hostName && (
-          <div className="absolute top-[6px] left-[6px] flex items-center gap-[6px] bg-black/45 backdrop-blur-[50px] border border-white/25 rounded-[25px] px-[6px] py-[5px]">
+          <div className="absolute top-[6px] left-[6px] flex items-center gap-[6px] bg-black/45 backdrop-blur-[50px] border border-white/5 rounded-[25px] px-[6px] py-[5px]">
             <div className="w-[20px] h-[20px] rounded-full bg-white/15 border-[0.5px] border-white/25 flex items-center justify-center shrink-0 p-[2px]">
-              <img src="/icons/icon-crown.svg" alt="" className="w-full h-full" />
+              <img src="/icons/icon-crown.svg" alt="" className="w-full h-full rotate-[-40deg]" />
             </div>
-            <span className="text-white text-[10px] font-medium tracking-[0.5px] leading-none">
+            <span className="text-white text-[10px] font-medium tracking-[0.5px] leading-none max-w-[58px] truncate">
               {hostName}
             </span>
           </div>
@@ -56,7 +57,7 @@ function LinkupCard({ linkup, ownerName }: { readonly linkup: PublicUserLinkup; 
       </div>
 
       {/* Content */}
-      <div className="flex flex-col gap-[6px] w-[165px] shrink-0">
+      <div className="flex flex-col gap-[8px] w-[165px] shrink-0">
         {/* Title */}
         <p className="text-white text-[14px] font-extrabold tracking-[-0.21px] leading-[17px] line-clamp-2" style={{ fontFeatureSettings: "'case' 1" }}>
           {linkup.title}
@@ -74,15 +75,16 @@ function LinkupCard({ linkup, ownerName }: { readonly linkup: PublicUserLinkup; 
           {avatars.map((p, i) => (
             <div
               key={p.id ?? i}
-              className="w-[25px] h-[25px] rounded-full overflow-hidden border border-white/20 shrink-0 -ml-[9px] first:ml-0"
-              >
+              className="relative w-[25px] h-[25px] rounded-full overflow-hidden shrink-0 -ml-[9px] first:ml-0"
+            >
               <ParticipantAvatar participant={p} />
+              <div className="absolute inset-0 rounded-full pointer-events-none" style={{ boxShadow: "inset 0 0 0 1px #FFFFFF0D" }} />
             </div>
           ))}
           {totalCount > avatars.length && (
             <div
-              className="w-[25px] h-[25px] rounded-full -ml-[9px] bg-white/10 border border-white flex items-center justify-center shrink-0 backdrop-blur-[200px]"
-              style={{ position: "relative", zIndex: 0 }}
+              className="w-[25px] h-[25px] rounded-full -ml-[9px] flex items-center justify-center shrink-0 backdrop-blur-[10px]"
+              style={{ backgroundColor: "rgba(75,72,115,0.25)" }}
             >
               <span className="text-white text-[9px] font-semibold tracking-[-0.135px]">
                 {totalCount - avatars.length}+
@@ -116,7 +118,11 @@ function formatLinkupDate(startTime: string): string {
   const start = new Date(startTime);
   const now = new Date();
   const diffDays = Math.floor((start.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-  const timeStr = start.toLocaleTimeString("en-GB", { hour: "numeric", minute: "2-digit", hour12: true });
+  const timeStr = start.toLocaleTimeString("en-GB", {
+    hour: "numeric",
+    ...(start.getMinutes() !== 0 && { minute: "2-digit" }),
+    hour12: true,
+  }).replace(" ", "");
 
   if (diffDays === 0) return `Today, ${timeStr}`;
   if (diffDays === 1) return `Tomorrow, ${timeStr}`;

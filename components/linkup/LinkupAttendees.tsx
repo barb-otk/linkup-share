@@ -31,28 +31,22 @@ export default function LinkupAttendees({ event }: Props) {
           return (
             <div key={attendee.userId ?? attendee.id ?? `attendee-${i}`} className="flex flex-col items-center gap-1">
               {/* Avatar with badges */}
-              <div className="relative w-[59px] h-[59px]">
-                <div className="w-full h-full rounded-full overflow-hidden" style={{ border: "1.5px solid #FFFFFF" }}>
-                  {attendee.picture ? (
-                    <img
-                      src={attendee.picture}
-                      alt={attendee.name}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-white/10 backdrop-blur-[20px] flex items-center justify-center text-white text-lg font-semibold">
-                      {attendee.name?.[0] ?? "?"}
-                    </div>
-                  )}
-                </div>
+              <div
+                className="relative w-[59px] h-[59px] rounded-full bg-cover bg-center bg-white/10"
+                style={attendee.picture ? { backgroundImage: `url(${attendee.picture})` } : {}}
+              >
+                {!attendee.picture && (
+                  <div className="w-full h-full rounded-full flex items-center justify-center text-white text-lg font-semibold">
+                    {attendee.name?.[0] ?? "?"}
+                  </div>
+                )}
+                <div className="absolute inset-0 rounded-full pointer-events-none" style={{ boxShadow: "inset 0 0 0 1px #FFFFFF0D" }} />
 
                 {/* Crown badge — host, top right */}
                 {isHost && (
-                  <img
-                    src="/icons/icon-crown.svg"
-                    alt="Host"
-                    className="absolute -top-2 -right-1 w-[25px] h-[25px]"
-                  />
+                  <div className="absolute top-[-6px] right-[-6px] w-[24px] h-[24px] rounded-[999px] backdrop-blur-[5px] bg-white/10 border border-white/5 flex flex-col items-center justify-center py-[3px]">
+                    <img src="/icons/icon-crown.svg" alt="Host" className="w-[13.5px] h-[11.6px]" />
+                  </div>
                 )}
 
                 {/* Verified badge — bottom right */}

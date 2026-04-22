@@ -45,7 +45,7 @@ export default function TopBanner({ device }: Props) {
       {/* Text */}
       <div className="flex flex-col flex-1 min-w-0">
         <span className="text-white text-[13px] font-medium tracking-[-0.195px] leading-5">
-          Linkup: Do more together
+          Linkup: Do more, together
         </span>
         <span className="text-white/50 text-[12px] font-normal tracking-[-0.18px] leading-5">
           Open in the linkup app

@@ -33,6 +33,14 @@ export default function ProfileAbout({ bio }: Props) {
             Read more
           </button>
         )}
+        {isLong && expanded && (
+          <>{" "}<button
+            onClick={() => setExpanded(false)}
+            className="text-white font-extrabold inline"
+          >
+            Read less
+          </button></>
+        )}
       </p>
     </div>
   );

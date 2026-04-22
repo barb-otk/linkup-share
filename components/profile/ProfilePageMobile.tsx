@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { type PublicUserLinkup, UserProfile, calcAge } from "@/types";
+import { type PublicUserLinkup, UserProfile, calcAge, countryCodeToFlag } from "@/types";
 import { DeviceType } from "@/lib/device";
 import TopBanner from "@/components/shared/TopBanner";
 import DynamicBackground from "@/components/shared/DynamicBackground";
@@ -23,8 +23,8 @@ export default function ProfilePageMobile({ profile, device, linkups, profileCol
   const anchorRef = useRef<HTMLDivElement>(null);
   const [isFixed, setIsFixed] = useState(true);
   const age = !profile.hideAge && profile.dateOfBirth ? calcAge(profile.dateOfBirth) : null;
-  const flagUrl = profile.nationality?.alpha2Code
-    ? `https://flagcdn.com/w20/${profile.nationality.alpha2Code.toLowerCase()}.png`
+  const flag = profile.nationality?.alpha2Code
+    ? countryCodeToFlag(profile.nationality.alpha2Code)
     : null;
   const [r, g, b] = profileColor;
 
@@ -74,7 +74,7 @@ export default function ProfilePageMobile({ profile, device, linkups, profileCol
                   <GlobeIcon />
                   <span className="text-white/75 text-[12px] font-normal leading-[23px] tracking-[0.36px]">
                     {profile.nationality.name}
-                    {flagUrl && <img src={flagUrl} alt="" className="inline w-5 h-auto ml-1 align-middle" />}
+                    {flag && <> {flag}</>}
                   </span>
                 </div>
               )}
@@ -91,7 +91,7 @@ export default function ProfilePageMobile({ profile, device, linkups, profileCol
 
         {profile.bio && <ProfileAbout bio={profile.bio} />}
         <ProfileTags profile={profile} />
-        <ProfileLinkups linkups={linkups} ownerName={profile.name} />
+        <ProfileLinkups linkups={linkups} ownerName={profile.name} profileId={profile.id} />
         <div ref={anchorRef} className="h-px w-full" />
       </div>
 

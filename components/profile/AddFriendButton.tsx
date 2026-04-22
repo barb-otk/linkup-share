@@ -42,13 +42,12 @@ export default function AddFriendButton({ profileUsername, firstName, device, is
   const buttonEl = (
     <button
       onClick={handleClick}
-      className="w-[183px] h-[45px] text-white text-center font-buckin-black text-[18px] cursor-pointer"
+      className={`w-[183px] text-white text-center font-buckin-black text-[18px] cursor-pointer ${isDesktop ? "h-[41px]" : "h-[50px]"}`}
       style={{
         borderRadius: "999px",
         border: "1px solid rgba(255, 255, 255, 0.15)",
         background: "linear-gradient(135deg, #8325FF 0%, #6B40FF 50%, #4993FF 100%)",
         boxShadow: "0 4px 11.9px 0 rgba(0, 0, 0, 0.15)",
-        lineHeight: "41px",
       }}
     >
       Add friend

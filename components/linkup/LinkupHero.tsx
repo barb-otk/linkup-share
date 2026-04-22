@@ -24,23 +24,23 @@ export default function LinkupHero({ event, device, eventColor }: Props) {
   const isDesktop = device === "desktop";
 
   return (
-    <div className="relative w-full rounded-[26px] overflow-hidden border border-white/15">
+    <div className="relative w-full rounded-[26px] overflow-hidden">
       <div className="relative w-full aspect-[315/399]">
         <img
           src={event.picture}
           alt={event.title}
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent from-[36%] to-black/80 to-[100%]" />
+        <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, rgba(${eventColor[0]},${eventColor[1]},${eventColor[2]},0) 36%, rgb(${eventColor[0]},${eventColor[1]},${eventColor[2]}) 75%)` }} />
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-4 p-8">
+      <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-2 p-8">
         <AttendeeAvatarStack
           attendees={avatars}
           totalCount={totalCount}
           size="md"
         />
-        <h1 className="text-white text-[28px] font-black tracking-[-0.42px] text-center">
+        <h1 className="text-white text-[28px] font-black tracking-[-0.42px] leading-[1.2] text-center mb-2">
           {event.title}
         </h1>
         {isDesktop && (

@@ -1,4 +1,4 @@
-import { UserProfile, PublicUserLinkup, calcAge } from "@/types";
+import { UserProfile, PublicUserLinkup, calcAge, countryCodeToFlag } from "@/types";
 import { DeviceType } from "@/lib/device";
 import DynamicBackground from "@/components/shared/DynamicBackground";
 import ProfileAbout from "@/components/profile/ProfileAbout";
@@ -17,8 +17,8 @@ interface Props {
 
 export default function ProfilePageDesktop({ profile, device, linkups, profileColor, isSelf }: Props) {
   const age = !profile.hideAge && profile.dateOfBirth ? calcAge(profile.dateOfBirth) : null;
-  const flagUrl = profile.nationality?.alpha2Code
-    ? `https://flagcdn.com/w20/${profile.nationality.alpha2Code.toLowerCase()}.png`
+  const flag = profile.nationality?.alpha2Code
+    ? countryCodeToFlag(profile.nationality.alpha2Code)
     : null;
   const [r, g, b] = profileColor;
 
@@ -44,7 +44,7 @@ export default function ProfilePageDesktop({ profile, device, linkups, profileCo
                     <GlobeIcon />
                     <span className="text-white/75 text-[12px] font-normal leading-[23px] tracking-[0.36px]">
                       {profile.nationality.name}
-                      {flagUrl && <img src={flagUrl} alt="" className="inline w-5 h-auto ml-1 align-middle" />}
+                      {flag && <> {flag}</>}
                     </span>
                   </div>
                 )}
@@ -60,7 +60,7 @@ export default function ProfilePageDesktop({ profile, device, linkups, profileCo
 
             {profile.bio && <ProfileAbout bio={profile.bio} />}
             <ProfileTags profile={profile} />
-            <ProfileLinkups linkups={linkups} ownerName={profile.name} />
+            <ProfileLinkups linkups={linkups} ownerName={profile.name} profileId={profile.id} />
           </div>
 
           {/* ── Right column — sticky profile card ────────────── */}
@@ -84,17 +84,17 @@ export default function ProfilePageDesktop({ profile, device, linkups, profileCo
               <div className="absolute inset-0" style={{ background: `linear-gradient(180deg, rgba(${r},${g},${b},0) 36%, rgb(${r},${g},${b}) 75%)` }} />
 
               {/* Overlaid content */}
-              <div className="absolute bottom-0 left-0 right-0 px-5 pb-[40px] flex flex-col gap-4 items-center">
+              <div className="absolute bottom-0 left-0 right-0 px-5 pb-[40px] flex flex-col gap-2 items-center">
                 <h2 className="text-center text-white text-[27px] font-buckin-black tracking-[-0.405px]" style={{ fontFeatureSettings: "'case' 1" }}>
                   {profile.firstName || profile.name}
                 </h2>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col mb-2">
                   {profile.nationality?.name && (
                     <div className="flex items-center justify-center gap-2">
                       <GlobeIcon />
                       <span className="text-white/75 text-[12px] font-normal leading-[23px] tracking-[0.36px]">
                         {profile.nationality.name}
-                        {flagUrl && <img src={flagUrl} alt="" className="inline w-5 h-auto ml-1 align-middle" />}
+                        {flag && <> {flag}</>}
                       </span>
                     </div>
                   )}
