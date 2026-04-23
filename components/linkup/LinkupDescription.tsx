@@ -19,7 +19,7 @@ export default function LinkupDescription({ description }: Props) {
     : description;
 
   return (
-    <div className="rounded-[26px] border border-white/15 bg-white/[0.07] backdrop-blur-[31.8px] px-5 py-4">
+    <div className="rounded-[26px] border border-white/15 bg-white/5 px-5 py-4">
       {/* Header */}
       <div className="flex items-center gap-2 mb-3">
         <img src="/icons/icon-edit.svg" alt="" className="w-[17px] h-[18px] shrink-0" />

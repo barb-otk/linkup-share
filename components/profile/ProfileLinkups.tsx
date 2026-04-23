@@ -87,16 +87,11 @@ function LinkupCard({ linkup, ownerName, profileId }: { readonly linkup: PublicU
               style={{ backgroundColor: "rgba(75,72,115,0.25)" }}
             >
               <span className="text-white text-[9px] font-semibold tracking-[-0.135px]">
-                {totalCount - avatars.length}+
+                +{Math.min(totalCount - avatars.length, 99)}
               </span>
             </div>
           )}
         </div>
-      </div>
-
-      {/* Arrow icon — absolute right */}
-      <div className="absolute right-[14px] bottom-[14px] text-white/50 shrink-0">
-        <ArrowIcon />
       </div>
     </a>
   );

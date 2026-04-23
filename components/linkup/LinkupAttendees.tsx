@@ -13,7 +13,7 @@ export default function LinkupAttendees({ event }: Props) {
   const total = allAttendees.length;
 
   return (
-    <div className="rounded-[26px] border border-white/15 bg-white/[0.07] backdrop-blur-[31.8px] px-5 py-4">
+    <div className="rounded-[26px] border border-white/15 bg-white/5 px-5 py-4">
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <img src="/icons/icon-friends.svg" alt="" className="w-[22px] h-[22px] shrink-0" />

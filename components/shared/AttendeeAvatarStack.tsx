@@ -25,7 +25,7 @@ export default function AttendeeAvatarStack({
       {visible.map((attendee, i) => (
         <div
           key={attendee.userId ?? attendee.id ?? `attendee-${i}`}
-          className={`relative ${dim} rounded-full overflow-hidden -ml-2 first:ml-0`}
+          className={`relative ${dim} rounded-full overflow-hidden shrink-0 -ml-[9px] first:ml-0`}
         >
           {attendee.picture ? (
             <img
@@ -44,11 +44,11 @@ export default function AttendeeAvatarStack({
 
       {overflowCount > 0 && (
         <div
-          className={`relative ${dim} rounded-full flex items-center justify-center -ml-2 ${pillClass}`}
-          style={{ boxShadow: "inset 0 0 0 1px #FFFFFF0D" }}
+          className={`${dim} rounded-full flex items-center justify-center shrink-0 -ml-[9px] backdrop-blur-[10px]`}
+          style={{ backgroundColor: "rgba(75,72,115,0.25)" }}
         >
-          <span className={`text-white ${text} font-semibold tracking-[-0.15px]`}>
-            {overflowCount}+
+          <span className={`text-white ${text} font-semibold tracking-[-0.135px]`}>
+            +{Math.min(overflowCount, 99)}
           </span>
         </div>
       )}

@@ -15,7 +15,7 @@ export default function LinkupMap({ event }: Props) {
     : null;
 
   return (
-    <div className="rounded-[26px] border border-white/15 bg-white/[0.07] backdrop-blur-[31.8px] px-5 py-4">
+    <div className="rounded-[26px] border border-white/15 bg-white/5 px-5 py-4">
       {/* Header */}
       <div className="flex items-center gap-2 mb-2">
         <img src="/icons/icon-pin.svg" alt="" className="w-[18px] h-6 shrink-0" />

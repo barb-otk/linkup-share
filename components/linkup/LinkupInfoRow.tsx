@@ -33,7 +33,7 @@ export default function LinkupInfoRow({ event }: Props) {
   const attendeeCountLabel = total === 1 ? "1 attendee" : `${total} attendees`;
 
   return (
-    <div className="rounded-[26px] border border-white/15 bg-white/[0.07] backdrop-blur-[31.8px] px-5 py-4 flex flex-col gap-4">
+    <div className="rounded-[26px] border border-white/15 bg-white/5 px-5 py-4 flex flex-col gap-4">
 
       {/* Attendees */}
       <div className="flex items-center gap-3">
