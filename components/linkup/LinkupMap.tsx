@@ -19,7 +19,7 @@ export default function LinkupMap({ event }: Props) {
       {/* Header */}
       <div className="flex items-center gap-2 mb-2">
         <img src="/icons/icon-pin.svg" alt="" className="w-[18px] h-6 shrink-0" />
-        <span className="text-white text-[14px] font-medium">{locationName}</span>
+        <span className="text-white text-[14px] font-bold">{locationName}</span>
       </div>
 
       <p className="text-white/50 text-[12px] leading-5 mb-3">

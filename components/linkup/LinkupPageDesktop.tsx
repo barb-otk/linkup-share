@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { LinkupEvent } from "@/types";
 import { DeviceType } from "@/lib/device";
 import LinkupHero from "@/components/linkup/LinkupHero";
@@ -25,7 +26,7 @@ export default function LinkupPageDesktop({ event, device, eventColor }: Props) 
           <div className="flex flex-col flex-1">
             {/* Host */}
             <div className="flex items-center gap-2 mb-[16px]">
-              <div className="relative w-[25px] h-[25px] rounded-full overflow-hidden shrink-0 bg-white/20 flex items-center justify-center text-white text-[10px] font-semibold">
+              <Link href={`/profile/${event.ownerUsername}`} className="relative w-[25px] h-[25px] rounded-full overflow-hidden shrink-0 bg-white/20 flex items-center justify-center text-white text-[10px] font-semibold">
                 {event.ownerPictureUrl ? (
                   <img src={event.ownerPictureUrl} alt={event.ownerName} className="w-full h-full object-cover" />
                 ) : (
@@ -35,10 +36,10 @@ export default function LinkupPageDesktop({ event, device, eventColor }: Props) 
                   className="absolute inset-0 rounded-full pointer-events-none"
                   style={{ boxShadow: "inset 0 0 0 1px #FFFFFF0D" }}
                 />
-              </div>
+              </Link>
               <span className="text-white/50 text-[13px]">
                 Hosted by{" "}
-                <span className="text-white font-semibold">{event.ownerName}</span>
+                <Link href={`/profile/${event.ownerUsername}`} className="text-white font-semibold">{event.ownerName}</Link>
               </span>
             </div>
 

@@ -13,11 +13,11 @@ export default function LinkupAttendees({ event }: Props) {
   const total = allAttendees.length;
 
   return (
-    <div className="rounded-[26px] border border-white/15 bg-white/5 px-5 py-4">
+    <div id="attendees-section" className="rounded-[26px] border border-white/15 bg-white/5 px-5 py-4">
       {/* Header */}
       <div className="flex items-center gap-2 mb-4">
         <img src="/icons/icon-friends.svg" alt="" className="w-[22px] h-[22px] shrink-0" />
-        <span className="text-white text-[14px] font-medium">
+        <span className="text-white text-[14px] font-bold">
           Attendees{" "}
           <span className="text-white/50 font-normal">({total})</span>
         </span>
@@ -29,10 +29,10 @@ export default function LinkupAttendees({ event }: Props) {
           const isHost = (attendee.userId ?? attendee.id) === ownerId;
 
           return (
-            <div key={attendee.userId ?? attendee.id ?? `attendee-${i}`} className="flex flex-col items-center gap-1">
+            <div key={attendee.userId ?? attendee.id ?? `attendee-${i}`} className="flex flex-col items-center">
               {/* Avatar with badges */}
               <div
-                className="relative w-[59px] h-[59px] rounded-full bg-cover bg-center bg-white/10"
+                className="relative w-[59px] h-[59px] mb-[10px] rounded-full bg-cover bg-center bg-white/10"
                 style={attendee.picture ? { backgroundImage: `url(${attendee.picture})` } : {}}
               >
                 {!attendee.picture && (

@@ -36,10 +36,10 @@ export default function LinkupInfoRow({ event }: Props) {
     <div className="rounded-[26px] border border-white/15 bg-white/5 px-5 py-4 flex flex-col gap-4">
 
       {/* Attendees */}
-      <div className="flex items-center gap-3">
+      <a href="#attendees-section" className="flex items-center gap-3 cursor-pointer">
         <img src="/icons/icon-hand.svg" alt="" className="w-6 h-6 shrink-0" />
         <div className="flex flex-col flex-1">
-          <span className="text-white text-[14px] font-medium leading-5">
+          <span className="text-white text-[14px] font-bold leading-5">
             {attendeeCountLabel}
           </span>
           <span className="text-white/50 text-[12px] leading-5">
@@ -51,13 +51,13 @@ export default function LinkupInfoRow({ event }: Props) {
           totalCount={total}
           size="sm"
         />
-      </div>
+      </a>
 
       {/* Date / time */}
       <div className="flex items-start gap-3">
         <img src="/icons/icon-calendar.svg" alt="" className="w-6 h-6 mt-0.5 shrink-0" />
         <div className="flex flex-col">
-          <span className="text-white text-[14px] font-medium leading-5">
+          <span className="text-white text-[14px] font-bold leading-5">
             {mainLine}
           </span>
           <span className="text-white/50 text-[12px] leading-5">
@@ -70,7 +70,7 @@ export default function LinkupInfoRow({ event }: Props) {
       <div className="flex items-start gap-3">
         <img src="/icons/icon-pin.svg" alt="" className="w-6 h-6 mt-0.5 shrink-0" />
         <div className="flex flex-col">
-          <span className="text-white text-[14px] font-medium leading-5">
+          <span className="text-white text-[14px] font-bold leading-5">
             {locationName}
           </span>
           {locationSub && (
